@@ -495,7 +495,7 @@ void Draw_TH1_Histograms_MasterFunction(TH1D** histograms_collection, const TStr
   }
   // cout << "test5" << endl;
 
-  // draws histograms from collection, and setting the colors
+  // draws histograms from collection, and setting the colors, line and marker options
   int nColors = gStyle->GetNumberOfColors();
   int histoPaletteColor;
   for (int i = 0; i < collectionSize; i++) {
@@ -661,6 +661,11 @@ void Draw_TH1_Histograms_MasterFunction(TH1D** histograms_collection, const TStr
       legRatios->AddEntry(histograms_collection_ratios[i], legendList_string_ratios[i], "LP");
       padMainHist->cd();
     }
+    if (options.find("smallMarkers") != std::string::npos) { // if i=1 and if option noMarkerSecond is there (!= std::string::npos means it found find it in the elements 0 to npos-1, where npos is the size of the string options)
+      histograms_collection[i]->SetMarkerSize(0.3);
+      // histograms_collection[i]->SetMarkerStyle(1);
+    }
+
   }
   padMainHist->cd();
 
