@@ -41,6 +41,14 @@ TString* texSvdK = new TString("k");
 TString* texSvdDvector_k = new TString("d_{k}");
 
 
+
+TString* texCrossedRows = new TString("#it{N}_{crssRows}");
+TString* texCrossedRowsOverFindable = new TString("#it{N}_{crssRows}/#it{N}_{findableCls}");
+TString* texChi2NclsTPC = new TString("#chi^{2}_{Ncls TPC}");
+TString* texChi2NclsITS = new TString("#chi^{2}_{Ncls ITS}");
+TString* texDcaXY = new TString("DCA_{xy}");
+TString* texDcaZ = new TString("DCA_{z}");
+
 ////////////////////////////////////////////
 ////////////////// y-axis ////////////////// 
 ////////////////////////////////////////////
@@ -157,6 +165,9 @@ TString* texResMC = new TString("(#it{p}_{T, part} - #it{p}_{T, det}) / #it{p}_{
 
 ////////////////////////////
 ////////// Tracks //////////
+TString* texTrackPtYield = new TString("d#it{N}_{track}/d#it{p}_{T} (GeV/#it{c})^{-1}");
+TString* texTrackEtaYield = new TString("d#it{N}_{track}/d#it{#eta}");
+TString* texTrackPhiYield = new TString("d#it{N}_{track}/d#it{#phi}");
 TString* texTrackPtYield_EventNorm = new TString("1/#it{N}_{ev} d#it{N}_{track}/d#it{p}_{T} (GeV/#it{c})^{-1}");
 TString* texTrackEtaYield_EventNorm = new TString("1/#it{N}_{ev} d#it{N}_{track}/d#it{#eta}");
 TString* texTrackPhiYield_EventNorm = new TString("1/#it{N}_{ev} d#it{N}_{track}/d#it{#phi}");
@@ -171,6 +182,14 @@ TString* texMeanEta = new TString("<#eta>");
 TString* texMeanNtracks = new TString("<N_{tracks}>");
 TString* texTrackPtYield_JetsNorm = new TString("1/#it{N}_{jets} d#it{N}_{track}/d#it{p}_{T} (GeV/#it{c})^{-1}");
 TString* texDCAXY = new TString("DCA_{xy}");
+
+
+TString* texTrackCrossedRowsYield_EntriesNorm = new TString("1/#it{N}_{track} d#it{N}_{track}/d#it{N}_{crssRows}");
+TString* texTrackCrossedRowsOverFindableYield_EntriesNorm = new TString("1/#it{N}_{track} d#it{N}_{track}/d#frac{#it{N}_{crssRows}}{#it{N}_{findableCls}}");
+TString* texTrackChi2NclsTPCYield_EntriesNorm = new TString("1/#it{N}_{track} d#it{N}_{track}/d#it{N}_{#chi^{2}_{Ncls TPC}}");
+TString* texTrackChi2NclsITSYield_EntriesNorm = new TString("1/#it{N}_{track} d#it{N}_{track}/d#it{N}_{#chi^{2}_{Ncls ITS}}");
+TString* texTrackDcaXYYield_EntriesNorm = new TString("1/#it{N}_{track} d#it{N}_{track}/d#it{N}_{DCA_{xy}}");
+TString* texTrackDcaZYield_EntriesNorm = new TString("1/#it{N}_{track} d#it{N}_{track}/d#it{N}_{DCA_{z}}");
 
 ////////////////////////////
 ////////// Events //////////

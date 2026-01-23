@@ -79,6 +79,8 @@ void Draw_Mean_Pt_vs_Dataset();
 void Draw_Mean_Eta_vs_Dataset();
 void Draw_DcaXY_DatasetComp();
 
+void Draw_TrackSelDistribs_DatasetComparison();
+
 /////////////////////////////////////////////////////
 ///////////////////// Main Macro ////////////////////
 /////////////////////////////////////////////////////
@@ -114,16 +116,16 @@ void TrackQC() {
   float jetPtMinCutArray[nPtBins+1] = {0.15, 100};
 
 
-  Draw_Pt_DatasetComparison("evtNorm");
+  // Draw_Pt_DatasetComparison("evtNorm");
   // Draw_Pt_DatasetComparison("entriesNorm");
   for(int iPtBin = 0; iPtBin < nPtBins; iPtBin++){
     jetPtMinCut = jetPtMinCutArray[iPtBin];
     jetPtMaxCut = jetPtMinCutArray[iPtBin+1];
 
     float ptRange[2] = {jetPtMinCut, jetPtMaxCut};
-    Draw_Eta_DatasetComparison(ptRange, "evtNorm");
+    // Draw_Eta_DatasetComparison(ptRange, "evtNorm");
     // Draw_Eta_DatasetComparison(ptRange, "entriesNorm");
-    Draw_Phi_DatasetComparison(ptRange, "evtNorm");
+    // Draw_Phi_DatasetComparison(ptRange, "evtNorm");
     // Draw_Phi_DatasetComparison(ptRange, "entriesNorm");
 
   // Draw_Eta_DatasetComparison_trackSelComp();
@@ -144,6 +146,8 @@ void TrackQC() {
   // Draw_Mean_Eta_vs_Dataset();
   // Draw_Mean_Ntrack_vs_Dataset();
   // Draw_DcaXY_DatasetComp();
+
+  Draw_TrackSelDistribs_DatasetComparison();
 }
 
 /////////////////////////////////////////////////////
@@ -1378,4 +1382,71 @@ void Draw_DcaXY_DatasetComp() {
   }
   cout << "tesst3" << endl;
 
+}
+
+
+
+
+void Draw_TrackSelDistribs_DatasetComparison() {
+
+  TString textContext(contextTrackDatasetComp(""));
+
+  TString* textYaxis;
+  TString pdfNameNorm;
+  // if (options.find("evtNorm") != std::string::npos) {
+  //   textYaxis = texTrackPtYield_EventNorm;
+  //   pdfNameNorm = (TString)"_EventNorm";
+  // } else if (options.find("entriesNorm") != std::string::npos) {
+  //   textYaxis = texTrackPtYield_EntriesNorm;
+  //   pdfNameNorm = (TString)"_EntriesNorm";
+  // } else {
+  //   textYaxis = texTrackPtYield;
+  //   pdfNameNorm = (TString)"";
+  // }
+
+
+  double Nevents; 
+
+  const int nHistVariables = 6;
+  std::array<TString, nHistVariables> histVariableName{"tpccrossedrows", "tpccrossedrowsoverfindable", "chi2ncls_tpc", "chi2ncls_its", "dcaxy", "dcaz"};
+
+  TH1D* H1D_trackselplot[nHistVariables][nDatasets];
+  TString* texXaxis[nHistVariables] = {texCrossedRows, texCrossedRowsOverFindable, texChi2NclsTPC, texChi2NclsITS, texDcaXY, texDcaZ};
+  TString* texYaxis[nHistVariables] = {texTrackCrossedRowsYield_EntriesNorm, texTrackCrossedRowsOverFindableYield_EntriesNorm, texTrackChi2NclsTPCYield_EntriesNorm, texTrackChi2NclsITSYield_EntriesNorm, texTrackDcaXYYield_EntriesNorm, texTrackDcaZYield_EntriesNorm};
+  std::string histOptions[nHistVariables] = {"", "loxy", "", "", "logy", "logy"};
+
+  for (int iHistVariable = 0; iHistVariable < nHistVariables; iHistVariable++){ 
+    for(int iDataset = 0; iDataset < nDatasets; iDataset++){
+      H1D_trackselplot[iHistVariable][iDataset] = (TH1D*)((TH1D*)file_O2Analysis_list[iDataset]->Get(analysisWorkflow[iDataset]+"/h_trackselplot_"+histVariableName[iHistVariable]))->Clone("Draw_htrackselplot_"+histVariableName[iHistVariable]+"_DatasetComparison"+Datasets[iDataset]+DatasetsNames[iDataset]);
+      H1D_trackselplot[iHistVariable][iDataset]->Sumw2();
+
+      // ===================== Basic rebinning =====================
+      // H1D_trackPt_rebinned[iDataset] = (TH1D*)H1D_trackPt[iDataset]->Rebin(2.,"trackPt_rebinned_"+Datasets[iDataset]+DatasetsNames[iDataset]);
+      
+      // int nBinsLogRough = 100;
+      // std::vector<double> O2H1DPtLogBinsVector = MakeVariableBinning_logarithmic(H1D_trackPt[iDataset], nBinsLogRough);
+      // int nBinsLogResult = O2H1DPtLogBinsVector.size()-1;
+      // // std::vector<double> O2H1DPtLogBinsVector = MakeVariableBinning_logarithmic(0.5, 100, nBinsLogRough);
+      // double* O2ptLogBins = &O2H1DPtLogBinsVector[0];
+      // H1D_trackPt_rebinned[iDataset] = (TH1D*)H1D_trackPt[iDataset]->Rebin(nBinsLogResult, "trackPt_rebinned_"+Datasets[iDataset]+DatasetsNames[iDataset], O2ptLogBins);
+
+      // NormaliseYieldToNEntries(H1D_trackPt_rebinned[iDataset]);
+
+      NormaliseYieldToIntegral(H1D_trackselplot[iHistVariable][iDataset]);
+    }
+
+    TString* pdfName = new TString("track_selectionDistrib_"+histVariableName[iHistVariable]+"_EntriesNorm_DataComp");
+    TString* pdfName_ratio = new TString("track_selectionDistrib_"+histVariableName[iHistVariable]+"_EntriesNorm_DataComp_ratio");
+    TString* pdfName_ratio_zoom = new TString("track_selectionDistrib_"+histVariableName[iHistVariable]+"_EntriesNorm_DataComp_ratio_zoom");
+
+    std::array<std::array<float, 2>, 2> drawnWindowCustomRatio_zoom = {{{0.1, 100}, {0.9, 1.1}}}; // {{xmin, xmax}, {ymin, ymax}}
+    const std::array<std::array<float, 2>, 2> drawnWindowPt = {{{-999, -999}, {-999, -999}}}; // {{{xmin, xmax}, {ymin, ymax}}}
+    const std::array<std::array<float, 2>, 2> legendPlacementPt = {{{0.7, 0.65}, {0.85, 0.85}}}; // {{{x1, y1}, {x2, y2}}}
+    const std::array<std::array<float, 2>, 2> drawnWindowPtRatio = {{{-999, -999}, {0.3, 1.8}}}; // {{{xmin, xmax}, {ymin, ymax}}}
+    const std::array<std::array<float, 2>, 2> legendPlacementPtRatio = {{{0.17, 0.72}, {0.45, 0.81}}}; // {{{x1, y1}, {x2, y2}}}
+
+
+
+    Draw_TH1_Histograms(H1D_trackselplot[iHistVariable], DatasetsNames, nDatasets, textContext, pdfName, texXaxis[iHistVariable], texYaxis[iHistVariable], texCollisionDataInfo, drawnWindowPt, legendPlacementPt, contextPlacementAuto, "histWithLine, smallMarkers"+histOptions[iHistVariable]+histDatasetComparisonStructure);
+  }
 }
