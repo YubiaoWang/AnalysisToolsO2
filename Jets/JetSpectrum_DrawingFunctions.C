@@ -705,7 +705,9 @@ void Draw_Pt_spectrum_unfolded_singleDataset(int iDataset, int iRadius, int unfo
   H1D_jetPt_unfolded_measuredComp[0] = (TH1D*)H1D_jetPt_measured_genBinning->Clone("H1D_jetPt_measured_genBinning_measuredComp"+partialUniqueSpecifier);
   H1D_jetPt_unfolded_measuredComp[1] = (TH1D*)H1D_jetPt_unfolded->Clone("H1D_jetPt_unfolded_measuredComp"+partialUniqueSpecifier);
   H1D_jetPt_ratio_measured = (TH1D*)H1D_jetPt_unfolded->Clone("H1D_jetPt_ratio_measured"+partialUniqueSpecifier);
-  divideSuccessMeasured = H1D_jetPt_ratio_measured->Divide(H1D_jetPt_measured_genBinning);
+  // divideSuccessMeasured = H1D_jetPt_ratio_measured->Divide(H1D_jetPt_measured_genBinning);
+  divideSuccessMeasured = DivideWithCorrelatedErrors_simpleMax(H1D_jetPt_ratio_measured, H1D_jetPt_measured_genBinning);
+  
 
   cout << "comparison with mcp truth" << endl; 
   H1D_jetPt_unfolded_mcpComp[0] = (TH1D*)H1D_jetPt_mcp->Clone("H1D_jetPt_mcp_mcpComp"+partialUniqueSpecifier);
@@ -923,8 +925,10 @@ void Draw_Pt_spectrum_unfolded_singleDataset(int iDataset, int iRadius, int unfo
   H1D_jetPt_unfolded_refoldedComp[2] = (TH1D*)H1D_jetPt_measured->Clone("H1D_jetPt_measured_refoldedComp"+partialUniqueSpecifier);
   H1D_jetPt_ratio_measuredRefolded[0] = (TH1D*)H1D_jetPt_unfoldedThenRefolded->Clone("H1D_jetPt_ratio_refoldedComp"+partialUniqueSpecifier);
   H1D_jetPt_ratio_measuredRefolded[1] = (TH1D*)H1D_jetPt_unfoldedThenRefolded_RooUnfoldMethod->Clone("H1D_jetPt_ratio_refoldedComp_RooUnfoldMethod"+partialUniqueSpecifier);
-  divideSuccessMeasuredRefolded[0] = H1D_jetPt_ratio_measuredRefolded[0]->Divide(H1D_jetPt_measured);
-  divideSuccessMeasuredRefolded[1] = H1D_jetPt_ratio_measuredRefolded[1]->Divide(H1D_jetPt_measured);
+  // divideSuccessMeasuredRefolded[0] = H1D_jetPt_ratio_measuredRefolded[0]->Divide(H1D_jetPt_measured);
+  // divideSuccessMeasuredRefolded[1] = H1D_jetPt_ratio_measuredRefolded[1]->Divide(H1D_jetPt_measured);
+  divideSuccessMeasuredRefolded[0] = DivideWithCorrelatedErrors_simpleMax(H1D_jetPt_ratio_measuredRefolded[0], H1D_jetPt_measured);
+  divideSuccessMeasuredRefolded[1] = DivideWithCorrelatedErrors_simpleMax(H1D_jetPt_ratio_measuredRefolded[1], H1D_jetPt_measured);
 
 
   if (doClosure_splitMC_mcdUnfoldedVsGen) {
@@ -934,7 +938,9 @@ void Draw_Pt_spectrum_unfolded_singleDataset(int iDataset, int iRadius, int unfo
     H1D_jetPt_unfolded_mcdSplitClosure[0] = (TH1D*)H1D_jetPt_mcp_mcSplitInput->Clone("H1D_jetPt_mcp_mcSplitClosure"+partialUniqueSpecifier);
     H1D_jetPt_unfolded_mcdSplitClosure[1] = (TH1D*)H1D_jetPt_unfolded_inputSplitClosure->Clone("H1D_jetPt_unfolded_inputSplitClosure"+partialUniqueSpecifier);
     H1D_jetPt_ratio_mcdSplitClosure = (TH1D*)H1D_jetPt_unfolded_inputSplitClosure->Clone("H1D_jetPt_ratio_mcSplitClosure"+partialUniqueSpecifier);
-    divideSuccessMcdSplitClosure = H1D_jetPt_ratio_mcdSplitClosure->Divide(H1D_jetPt_mcp_mcSplitInput);
+    // divideSuccessMcdSplitClosure = H1D_jetPt_ratio_mcdSplitClosure->Divide(H1D_jetPt_mcp_mcSplitInput);
+    divideSuccessMcdSplitClosure = DivideWithCorrelatedErrors_simpleMax(H1D_jetPt_ratio_mcdSplitClosure, H1D_jetPt_mcp_mcSplitInput);
+
   }
 
   if (doClosure_splitMC_mcpFoldedWithFluct) {
@@ -945,8 +951,10 @@ void Draw_Pt_spectrum_unfolded_singleDataset(int iDataset, int iRadius, int unfo
     H1D_jetPt_unfolded_mcpFoldedComp[0] = (TH1D*)H1D_jetPt_mcpFolded->Clone("H1D_jetPt_mcpFoldedComp_mcpFolded"+partialUniqueSpecifier);
     H1D_jetPt_unfolded_mcpFoldedComp[1] = (TH1D*)H1D_jetPt_mcp_mcSplitInput_recBinning->Clone("H1D_jetPt_mcpFoldedComp_mcp"+partialUniqueSpecifier);
     H1D_jetPt_ratio_mcpFoldedMcp = (TH1D*)H1D_jetPt_mcpFolded->Clone("H1D_jetPt_ratio_mcpFoldedMcp"+partialUniqueSpecifier);
-    divideSuccessMcpFoldedMcp = H1D_jetPt_ratio_mcpFoldedMcp->Divide(H1D_jetPt_mcp_mcSplitInput_recBinning);
+    // divideSuccessMcpFoldedMcp = H1D_jetPt_ratio_mcpFoldedMcp->Divide(H1D_jetPt_mcp_mcSplitInput_recBinning);
+    divideSuccessMcpFoldedMcp = DivideWithCorrelatedErrors_simpleMax(H1D_jetPt_ratio_mcpFoldedMcp,H1D_jetPt_mcp_mcSplitInput_recBinning);
 
+    
     // cout << "Integral mcp folded: " << H1D_jetPt_mcpFolded->Integral(1, H1D_jetPt_mcpFolded->GetNbinsX()) << endl;
     // cout << "Integral mcp       : " << H1D_jetPt_mcp_mcSplitInput->Integral(1, H1D_jetPt_mcp_mcSplitInput->GetNbinsX()) << endl;
   
@@ -960,7 +968,8 @@ void Draw_Pt_spectrum_unfolded_singleDataset(int iDataset, int iRadius, int unfo
     H1D_jetPt_unfolded_mcpFoldedUnfoldedComp[0] = (TH1D*)H1D_jetPt_mcpFoldedThenUnfolded->Clone("H1D_jetPt_mcpFoldedUnfoldedComp_mcpFoldedUnfolded"+partialUniqueSpecifier);
     H1D_jetPt_unfolded_mcpFoldedUnfoldedComp[1] = (TH1D*)H1D_jetPt_mcp->Clone("H1D_jetPt_mcpFoldedUnfoldedComp_mcp"+partialUniqueSpecifier);
     H1D_jetPt_ratio_mcpFoldedUnfoldedMcp = (TH1D*)H1D_jetPt_mcpFoldedThenUnfolded->Clone("H1D_jetPt_ratio_mcpFoldedUnfoldedMcp"+partialUniqueSpecifier);
-    divideSuccessMcpFoldedUnfoldedMcp = H1D_jetPt_ratio_mcpFoldedUnfoldedMcp->Divide(H1D_jetPt_mcp); // divided by mcp Get_Pt_spectrum_mcp_genBinning
+    // divideSuccessMcpFoldedUnfoldedMcp = H1D_jetPt_ratio_mcpFoldedUnfoldedMcp->Divide(H1D_jetPt_mcp); // divided by mcp Get_Pt_spectrum_mcp_genBinning
+    divideSuccessMcpFoldedUnfoldedMcp = DivideWithCorrelatedErrors_simpleMax(H1D_jetPt_ratio_mcpFoldedUnfoldedMcp, H1D_jetPt_mcp); // divided by mcp Get_Pt_spectrum_mcp_genBinning
   }
 
   TString unfoldingCode;
@@ -1388,7 +1397,8 @@ void Draw_Pt_spectrum_unfolded_datasetComparison(int iRadius, int unfoldParamete
       Get_Pt_spectrum_bkgCorrected_fineBinning(H1D_jetPt_measured_genBinning[iDataset], iDataset, iRadius, options);
     }
     H1D_jetPt_ratio_measured[iDataset] = (TH1D*)H1D_jetPt_unfolded[iDataset]->Clone("H1D_jetPt_ratio_measured"+partialUniqueSpecifier+datasetNameSpecifier[iDataset]);
-    divideSuccessMeasured[iDataset] = H1D_jetPt_ratio_measured[iDataset]->Divide(H1D_jetPt_measured_genBinning[iDataset]);
+    // divideSuccessMeasured[iDataset] = H1D_jetPt_ratio_measured[iDataset]->Divide(H1D_jetPt_measured_genBinning[iDataset]);
+    divideSuccessMeasured[iDataset] = DivideWithCorrelatedErrors_simpleMax(H1D_jetPt_ratio_measured[iDataset], H1D_jetPt_measured_genBinning[iDataset]);
 
     cout << "comparison with mcp truth" << endl; 
     H1D_jetPt_ratio_mcp[iDataset] = (TH1D*)H1D_jetPt_unfolded[iDataset]->Clone("H1D_jetPt_ratio_mcp"+partialUniqueSpecifier+datasetNameSpecifier[iDataset]);
@@ -1403,7 +1413,8 @@ void Draw_Pt_spectrum_unfolded_datasetComparison(int iRadius, int unfoldParamete
     Get_Pt_spectrum_dataUnfoldedThenRefolded(H1D_jetPt_unfoldedThenRefolded[iDataset], measuredInput[iDataset], iDataset, iRadius, unfoldParameterInput, options);
     H1D_jetPt_unfolded_refoldedComp[iDataset] = (TH1D*)H1D_jetPt_unfoldedThenRefolded[iDataset]->Clone("H1D_jetPt_refolded_refoldedComp"+partialUniqueSpecifier+datasetNameSpecifier[iDataset]);
     H1D_jetPt_ratio_measuredRefolded[iDataset] = (TH1D*)H1D_jetPt_unfoldedThenRefolded[iDataset]->Clone("H1D_jetPt_ratio_refoldedComp"+partialUniqueSpecifier+datasetNameSpecifier[iDataset]);
-    divideSuccessMeasuredRefolded[iDataset] = H1D_jetPt_ratio_measuredRefolded[iDataset]->Divide(H1D_jetPt_measured[iDataset]);
+    // divideSuccessMeasuredRefolded[iDataset] = H1D_jetPt_ratio_measuredRefolded[iDataset]->Divide(H1D_jetPt_measured[iDataset]);
+    divideSuccessMeasuredRefolded[iDataset] = DivideWithCorrelatedErrors_simpleMax(H1D_jetPt_ratio_measuredRefolded[iDataset], H1D_jetPt_measured[iDataset]);
 
     cout << "comparison with run2" << endl; 
     if (comparePbPbWithRun2) {

@@ -557,7 +557,20 @@ TH1D GetMatrixVectorProductTH2xTH1(TH2D* histA, TH1D* histU){
   return histAU;
 }
 
-
+bool DivideWithCorrelatedErrors_simpleMax(TH1D* histNumeratorToBeDivided, TH1D* histDenominator) {
+  // like ->Divide() this function replaces the first histogram with the ratio
+  int nBins = histNumeratorToBeDivided->GetNbinsX();
+  std::vector<double> errorsNum, errorsDen;
+  for (int iBin = 1; iBin <= nBins; iBin++) {
+    errorsNum.push_back(histNumeratorToBeDivided->GetBinError(iBin)/histNumeratorToBeDivided->GetBinContent(iBin));
+    errorsDen.push_back(histDenominator->GetBinError(iBin)/histDenominator->GetBinContent(iBin));
+  }
+  bool divideSuccess = histNumeratorToBeDivided->Divide(histDenominator);
+  for (int iBin = 1; iBin <= nBins; iBin++) {
+    histNumeratorToBeDivided->SetBinError(iBin, errorsNum[iBin] > errorsDen[iBin] ? errorsNum[iBin] : errorsDen[iBin]);
+  }
+  return divideSuccess;
+}
 
 
 
