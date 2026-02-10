@@ -54,7 +54,7 @@ std::pair<int, RooUnfold*> Get_Pt_spectrum_unfolded_preWidthScalingAtEndAndEvtNo
   bool controlMC_useResponseSplit_response = true; // has no effect if controlMC=false; is used with spectraGetters if one should draw from response split
   bool controlMC_useResponseSplit_input = false; // has no effect if controlMC=false; is used with spectraGetters if one should draw from input split
 
-  TString partialUniqueSpecifier = Datasets[iDataset]+DatasetsNames[iDataset]+Form("%.1d",iDataset)+"_R="+Form("%.1f",arrayRadius[iRadius])+"controlMC"+Form("%.1i",controlMC)+"inputIsGen"+Form("%.1i",inputIsGen);
+  TString partialUniqueSpecifier = Datasets[iDataset]+DatasetsNames[iDataset]+Form("%.1d",iDataset)+"_R="+Form("%.1f",arrayRadius[iRadius])+"unfoldParameterInput"+Form("%.1d",unfoldParameterInput)+"controlMC"+Form("%.1i",controlMC)+"inputIsGen"+Form("%.1i",inputIsGen);
 
   TH1D* measured = (TH1D*)measuredInput->Clone("measured_Get_Pt_spectrum_unfolded_preWidthScalingAtEndAndEvtNorm"+partialUniqueSpecifier);;
   TH1D* mcp; // used if useManualRespMatrixSettingMethod is false, for calculating efficiency and purity
@@ -416,7 +416,7 @@ void Get_Pt_spectrum_dataUnfoldedThenRefolded_preWidthScalingAtEndAndEvtNorm(TH1
   bool controlMC_useResponseSplit_response = true; // has no effect if controlMC=false; is used with spectraGetters if one should draw from response split
   bool controlMC_useResponseSplit_input = false; // has no effect if controlMC=false; is used with spectraGetters if one should draw from input split
 
-  TString partialUniqueSpecifier = Datasets[iDataset]+DatasetsNames[iDataset]+Form("%.1d",iDataset)+"_R="+Form("%.1f",arrayRadius[iRadius])+"controlMC"+Form("%.1i",controlMC)+"inputIsGen"+Form("%.1i",inputIsGen);
+  TString partialUniqueSpecifier = Datasets[iDataset]+DatasetsNames[iDataset]+Form("%.1d",iDataset)+"_R="+Form("%.1f",arrayRadius[iRadius])+"unfoldParameterInput"+Form("%.1d",unfoldParameterInput)+"controlMC"+Form("%.1i",controlMC)+"inputIsGen"+Form("%.1i",inputIsGen);
 
   RooUnfold* unfold = Get_Pt_spectrum_unfolded_preWidthScalingAtEndAndEvtNorm(H1D_jetPt_unfolded, measuredInput, iDataset, iRadius, unfoldParameterInput, options, controlMC, inputIsGen).second;
   // Get_Pt_spectrum_unfolded(H1D_jetPt_unfolded, iDataset, iRadius, unfoldParameterInput, options);
@@ -626,7 +626,7 @@ void Get_Pt_spectrum_dataUnfoldedThenRefolded_RooUnfoldMethod_preWidthScalingAtE
   bool controlMC_useResponseSplit_response = true; // has no effect if controlMC=false; is used with spectraGetters if one should draw from response split
   bool controlMC_useResponseSplit_input = false; // has no effect if controlMC=false; is used with spectraGetters if one should draw from input split
 
-  TString partialUniqueSpecifier = Datasets[iDataset]+DatasetsNames[iDataset]+Form("%.1d",iDataset)+"_R="+Form("%.1f",arrayRadius[iRadius])+"controlMC"+Form("%.1i",controlMC)+"inputIsGen"+Form("%.1i",inputIsGen);
+  TString partialUniqueSpecifier = Datasets[iDataset]+DatasetsNames[iDataset]+Form("%.1d",iDataset)+"_R="+Form("%.1f",arrayRadius[iRadius])+"unfoldParameterInput"+Form("%.1d",unfoldParameterInput)+"controlMC"+Form("%.1i",controlMC)+"inputIsGen"+Form("%.1i",inputIsGen);
 
   RooUnfold* unfold = Get_Pt_spectrum_unfolded_preWidthScalingAtEndAndEvtNorm(H1D_jetPt_unfolded, measuredInput, iDataset, iRadius, unfoldParameterInput, options, controlMC, inputIsGen).second;
 
