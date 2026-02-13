@@ -151,8 +151,8 @@ void Draw_Ntracks_vs_Occupancy_DatasetComparison_JetVersion(std::string options)
   TH1D* H1D_occupancy_averageNTracksselptetacuts_postcollsel_withProfile[nDatasets];
   TH1D* H1D_occupancy_averageNTracksselptetacuts_precollsel_withProfile[nDatasets];
 
-  TH2D* H2D_occupancy_ntracksselptetacuts_preMinusPost_withProfile[nDatasets];
-  TH1D* H2D_occupancy_ntracksselptetacuts_preMinusPost_rebinned[nDatasets];
+  TH1D* H1D_occupancy_ntracksselptetacuts_preMinusPost_withProfile[nDatasets];
+  TH2D* H2D_occupancy_ntracksselptetacuts_preMinusPost_rebinned[nDatasets];
 
   // int nBinsOccupancy, nBinsNTracks, numeratorAverageNTracks, denominatorAverageNTracks, nEventsAtOccupancyNTracks;
 
@@ -179,7 +179,7 @@ void Draw_Ntracks_vs_Occupancy_DatasetComparison_JetVersion(std::string options)
     H2D_occupancy_ntracksselptetacuts_precollsel_rebinned[iDataset] = (TH2D*)H2D_occupancy_ntracksselptetacuts_precollsel[iDataset]->RebinX(1.,"H2D_occupancy_ntracksselptetacuts_precollsel_rebinned"+Datasets[iDataset]+DatasetsNames[iDataset]);
 
     H2D_occupancy_ntracksselptetacuts_preMinusPost_rebinned[iDataset] = (TH2D*)((TH2D*)H2D_occupancy_ntracksselptetacuts_precollsel_rebinned[iDataset])->Clone("H2D_occupancy_ntracksselptetacuts_preMinusPost_rebinned"+Datasets[iDataset]+DatasetsNames[iDataset]);
-    H2D_occupancy_ntracksselptetacuts_preMinusPost_rebinned[iDataset]->Add(H2D_occupancy_ntracksselptetacuts_postcollsel_rebinned[iDataset], -1)
+    H2D_occupancy_ntracksselptetacuts_preMinusPost_rebinned[iDataset]->Add(H2D_occupancy_ntracksselptetacuts_postcollsel_rebinned[iDataset], -1);
 
     // H2D_occupancy_ntrackssel_postcollsel_rebinned[iDataset] = (TH2D*)H2D_occupancy_ntrackssel_postcollsel[iDataset]->RebinX(5.,"H2D_occupancy_ntrackssel_postcollsel_rebinned"+Datasets[iDataset]+DatasetsNames[iDataset]);
     // H2D_occupancy_ntrackssel_precollsel_rebinned[iDataset] = (TH2D*)H2D_occupancy_ntrackssel_precollsel[iDataset]->RebinX(5.,"H2D_occupancy_ntrackssel_precollsel_rebinned"+Datasets[iDataset]+DatasetsNames[iDataset]);
@@ -190,7 +190,7 @@ void Draw_Ntracks_vs_Occupancy_DatasetComparison_JetVersion(std::string options)
 
     H1D_occupancy_averageNTracksselptetacuts_postcollsel_withProfile[iDataset] = (TH1D*)H2D_occupancy_ntracksselptetacuts_postcollsel_rebinned[iDataset]->ProfileX("H1D_occupancy_averageNTracksselptetacuts_postcollsel_withProfile"+Datasets[iDataset]+DatasetsNames[iDataset], 0, -1, "e");
     H1D_occupancy_averageNTracksselptetacuts_precollsel_withProfile[iDataset] = (TH1D*)H2D_occupancy_ntracksselptetacuts_precollsel_rebinned[iDataset]->ProfileX("H1D_occupancy_averageNTracksselptetacuts_precollsel_withProfile"+Datasets[iDataset]+DatasetsNames[iDataset], 0, -1, "e");
-    H2D_occupancy_ntracksselptetacuts_preMinusPost_withProfile[iDataset] = (TH1D*)H2D_occupancy_ntracksselptetacuts_preMinusPost_rebinned[iDataset]->ProfileX("H1D_occupancy_averageNTracksselptetacuts_preMinusPost_withProfile"+Datasets[iDataset]+DatasetsNames[iDataset], 0, -1, "e");
+    H1D_occupancy_ntracksselptetacuts_preMinusPost_withProfile[iDataset] = (TH1D*)H2D_occupancy_ntracksselptetacuts_preMinusPost_rebinned[iDataset]->ProfileX("H1D_occupancy_averageNTracksselptetacuts_preMinusPost_withProfile"+Datasets[iDataset]+DatasetsNames[iDataset], 0, -1, "e");
 
 
     // H1D_occupancy_averageNTrackssel_postcollsel_withProfile[iDataset] = (TH1D*)H2D_occupancy_ntrackssel_postcollsel_rebinned[iDataset]->ProfileX("H1D_occupancy_averageNTrackssel_postcollsel_withProfile"+Datasets[iDataset]+DatasetsNames[iDataset], 0, -1, "e");
@@ -228,7 +228,7 @@ void Draw_Ntracks_vs_Occupancy_DatasetComparison_JetVersion(std::string options)
 
   Draw_TH1_Histograms(H1D_occupancy_averageNTracksselptetacuts_precollsel_withProfile, DatasetsNames, nDatasets, textContext, pdfName_trackselptetacuts_precollsel, texWeightOccupancy, texMeanNtracks, texCollisionDataInfo, drawnWindow, legendPlacementAuto, contextPlacementCustom, ""+histDatasetComparisonStructure);
   Draw_TH1_Histograms(H1D_occupancy_averageNTracksselptetacuts_postcollsel_withProfile, DatasetsNames, nDatasets, textContext, pdfName_trackselptetacuts_postcollsel, texWeightOccupancy, texMeanNtracks, texCollisionDataInfo, drawnWindow, legendPlacementAuto, contextPlacementCustom, ""+histDatasetComparisonStructure);
-  Draw_TH1_Histograms(H2D_occupancy_ntracksselptetacuts_preMinusPost_withProfile, DatasetsNames, nDatasets, textContext, pdfName_trackselptetacuts_preMinusPost, texWeightOccupancy, texMeanNtracks, texCollisionDataInfo, drawnWindow, legendPlacementAuto, contextPlacementCustom, ""+histDatasetComparisonStructure);
+  Draw_TH1_Histograms(H1D_occupancy_ntracksselptetacuts_preMinusPost_withProfile, DatasetsNames, nDatasets, textContext, pdfName_trackselptetacuts_preMinusPost, texWeightOccupancy, texMeanNtracks, texCollisionDataInfo, drawnWindow, legendPlacementAuto, contextPlacementCustom, ""+histDatasetComparisonStructure);
   Draw_TH2_Histograms(H2D_occupancy_ntracksselptetacuts_postcollsel, DatasetsNames, nDatasets, textContext, pdfName3zoom, texWeightOccupancy, texMeanNtracks, texCollisionDataInfo, drawnWindow2DAuto, th2ContoursNone, contourNumberNone, "logz");
   Draw_TH2_Histograms(H2D_occupancy_ntracksselptetacuts_postcollsel, DatasetsNames, nDatasets, textContext, pdfName3, texWeightOccupancy, texMeanNtracks, texCollisionDataInfo, drawnWindow2DAuto, th2ContoursNone, contourNumberNone, "logz");
   Draw_TH2_Histograms(H2D_occupancy_ntracksselptetacuts_precollsel, DatasetsNames, nDatasets, textContext, pdfName4zoom, texWeightOccupancy, texMeanNtracks, texCollisionDataInfo, drawnWindow2D, th2ContoursNone, contourNumberNone, "logz");
