@@ -13,9 +13,17 @@
 #include<array>
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////// Histogram Operations //////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+std::vector<double> GetTH1Bins(TH1* H1_histo) {
+  std::vector<double> bins;
+  for(int iBin = 1; iBin <= H1_histo->GetNbinsX(); iBin++){
+    bins.push_back(H1_histo->GetBinLowEdge(iBin));
+  }
+  bins.push_back(H1_histo->GetXaxis()->GetBinUpEdge(H1_histo->GetNbinsX()));
+  return bins;
+}
 
 std::vector<double> MakeVariableBinning_twoWidths(double xMin, int nLeft, double xMiddle, double xMax, int nRight) {
   if (xMin > xMiddle || xMiddle > xMax){
@@ -33,6 +41,31 @@ std::vector<double> MakeVariableBinning_twoWidths(double xMin, int nLeft, double
   }
   return bins;
 }
+
+TH1D* TGraphErrorsToTH1D(TGraphErrors tgraphToConvert) {
+  // assumes errors in x axis correspond to binning
+  int nBins = tgraphToConvert->DDDDD();
+  int nBinEdges
+  std::array<double, nBinEdges> binning;
+  for(int iBin = 0; iBin < nBins; iBin++){
+    binning[iBin] = tgraphToConvert.GetPointX(iBin) - tgraphToConvert.GetErrorX(iBin);
+  }
+  binning[nBins] = tgraphToConvert.GetPointX(nBins-1) - tgraphToConvert.GetErrorX(nBins-1); // right edge of last bin, as only left edge of bins have been filled so far
+
+  TH1D* convertedTH1D("convertedTH1D", "convertedTH1D", nBins, binning);
+  for(int iBin = 0; iBin < nBins; iBin++){
+    convertedTH1D->SetBinContent(iBin, tgraphToConvert.GetPointY(iBin));
+    convertedTH1D->SetBinError(iBin, tgraphToConvert.GetErrorY(iBin));
+  }
+
+  return convertedTH1D;
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////// Histogram Operations //////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 std::vector<double> MakeVariableBinning_logarithmic(TH1D* histogram, int nBinsRough) {
   double xMin = histogram->GetBinCenter(1); // center to avoid 0, which is where most histograms start at
@@ -60,15 +93,6 @@ std::vector<double> MakeVariableBinning_logarithmic(TH1D* histogram, int nBinsRo
     xTempRefined = histogram->GetXaxis()->GetBinLowEdge(originalHistBin);
   }
   bins.push_back(xMax);
-  return bins;
-}
-
-std::vector<double> GetTH1Bins(TH1* H1_histo) {
-  std::vector<double> bins;
-  for(int iBin = 1; iBin <= H1_histo->GetNbinsX(); iBin++){
-    bins.push_back(H1_histo->GetBinLowEdge(iBin));
-  }
-  bins.push_back(H1_histo->GetXaxis()->GetBinUpEdge(H1_histo->GetNbinsX()));
   return bins;
 }
 

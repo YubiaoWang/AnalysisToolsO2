@@ -33,7 +33,7 @@ TGraphErrors* getFunctionTGraphErrorsFromCovMatrix(double* xRangeFit, TF1* fitFu
   return fitFunctionTGraphErrors;
 }
 
-std::tuple<TF1*, TMatrixDSym, TFitResultPtr> TsallisFit(TH1D* &histogramInput, int nBinsX, double* binsX, double* xRangeFit) {
+std::tuple<TF1*, TMatrixDSym, TFitResultPtr> TsallisFit(TH1D* &histogramInput, double* xRangeFit) {
   ////////////////////////////////// Fit initialisation //////////////////////////////////
   //Fit tools initialisation
   TF1 *fitFunctionInit;
@@ -98,7 +98,7 @@ std::tuple<TF1*, TMatrixDSym, TFitResultPtr> TsallisFit(TH1D* &histogramInput, i
 }
 
 std::pair<TH1D*, TGraphErrors*> RebinWithTsallisFit(TH1D* &histogramInput, int nBinsX, double* binsX, double* xRangeFit) {
-  std::tuple<TF1*, TMatrixDSym, TFitResultPtr> tsallisFitFunctionResult = TsallisFit(histogramInput, nBinsX, binsX, xRangeFit);
+  std::tuple<TF1*, TMatrixDSym, TFitResultPtr> tsallisFitFunctionResult = TsallisFit(histogramInput, xRangeFit);
   TF1* fitFunctionDrawn = std::get<0>(tsallisFitFunctionResult);
   TFitResultPtr fitResult = std::get<2>(tsallisFitFunctionResult);
   TGraphErrors* fitFunctionTGraphErrors = getFunctionTGraphErrorsFromFitResult(xRangeFit, fitFunctionDrawn, fitResult);
@@ -124,7 +124,7 @@ std::pair<TH1D*, TGraphErrors*> RebinWithTsallisFit(TH1D* &histogramInput, int n
   return rebinResultAndFitFunction;
 }
 
-std::tuple<TF1*, TMatrixDSym, TFitResultPtr> exponentialFitWithLog(TH1D* &histogramInput, int nBinsX, double* binsX, double* xRangeFit) {
+std::tuple<TF1*, TMatrixDSym, TFitResultPtr> exponentialFitWithLog(TH1D* &histogramInput, double* xRangeFit) {
   ////////////////////////////////// Fit initialisation //////////////////////////////////
   //Fit tools initialisation
   TF1 *fitFunctionInit;
@@ -182,6 +182,9 @@ std::tuple<TF1*, TMatrixDSym, TFitResultPtr> exponentialFitWithLog(TH1D* &histog
   }
 
   fitFunctionDrawn = new TF1("fitFunctionDrawn_", "[0] + [1]*log(x) + [2]*x*log(x)", xRangeFit[0], xRangeFit[1]);
+  fitFunctionDrawn->SetParName(0, "C");
+  fitFunctionDrawn->SetParName(1, "expb");
+  fitFunctionDrawn->SetParName(2, "expa");
   fitFunctionDrawn->SetParameters(parfitFunctionFinal[0], parfitFunctionFinal[1], parfitFunctionFinal[2]);
   // fitFunctionDrawn->SetParameters(5, 0.9);
 
