@@ -1,7 +1,24 @@
 // This is a template. To use the JetSpectrum drawing functions, rename this file to JetSpectrum_RunMacro.C and edit it how you want and run "root pathToFolderAnalysisToolsO2/Jets/JetSpectrum_RunMacro.C+"
 
-#include "./Utilities/Fits.h"
-#include "./Utilities/Fits.C"
+#include "TStyle.h"
+#include "TGraph.h"
+#include "TFile.h"
+#include "TFitResult.h"
+#include "TH1F.h"
+#include "TH2F.h"
+#include "TH3F.h"
+#include "TCanvas.h"
+#include "TPad.h"
+#include "TF1.h"
+#include "TLatex.h"
+#include "TLine.h"
+#include "TRatioPlot.h"
+#include "TLegend.h"
+#include "TH1.h"
+
+#include "./JetFit_inputs.h"
+#include "../Utilities/Fits.h"
+#include "../Utilities/Fits.C"
 
 using namespace std;
 
@@ -15,7 +32,7 @@ void SetStyle(Bool_t graypalette=kFALSE);
 ///////////////////// Main Macro ////////////////////
 /////////////////////////////////////////////////////
 
-void JetSpectrum_RunMacro() {
+void JetFit_DrawingMacro() {
   // Set the default style
   SetStyle();
 
