@@ -1,7 +1,7 @@
 #ifndef FITS_C
 #define FITS_C
 
-TGraphErrors* getFunctionTGraphErrorsFromFitResult(double* xRangeFit, TF1* fitFunctionDrawn, TFitResultPtr fitResult, int nPointsGraph = 1000){
+TGraphErrors* GetFunctionTGraphErrorsFromFitResult(double* xRangeFit, TF1* fitFunctionDrawn, TFitResultPtr fitResult, int nPointsGraph = 1000){
   std::vector<double> xAxisGraph= {};
   std::vector<double> yAxisGraph= {};
   std::vector<double> yAxisGraphErrors= {};
@@ -18,7 +18,7 @@ TGraphErrors* getFunctionTGraphErrorsFromFitResult(double* xRangeFit, TF1* fitFu
   return fitFunctionTGraphErrors;
 }
 
-TGraphErrors* getFunctionTGraphErrorsFromCovMatrix(double* xRangeFit, TF1* fitFunctionDrawn, TMatrixDSym* covMatrix, int nPointsGraph = 1000){
+TGraphErrors* GetFunctionTGraphErrorsFromCovMatrix(double* xRangeFit, TF1* fitFunctionDrawn, TMatrixDSym* covMatrix, int nPointsGraph = 1000){
   std::vector<double> xAxisGraph= {};
   std::vector<double> yAxisGraph= {};
   std::vector<double> yAxisGraphErrors= {};
@@ -42,8 +42,9 @@ std::tuple<TF1*, TMatrixDSym, TFitResultPtr> TsallisFit(TH1D* &histogramInput, d
 
   TFitResultPtr fFitResult;
 
-  double parfitFunctionInit[5];
-  double parfitFunctionFinal[5];
+  const int nParameters = 2;
+  std::array<double, nParameters> parfitFunctionInit;
+  std::array<double, nParameters> parfitFunctionFinal;
 
   ////////////////////////////////////////////////////////////////////
   //////////////////////////// Fit start /////////////////////////////
@@ -80,7 +81,7 @@ std::tuple<TF1*, TMatrixDSym, TFitResultPtr> TsallisFit(TH1D* &histogramInput, d
   TMatrixDSym covMatrixFit = fFitResult->GetCovarianceMatrix();
 
   Double_t *pDataSmall = covMatrixFit.GetMatrixArray();
-  for (int i = 0; i < 2*2; i++) {
+  for (int i = 0; i < nParameters*nParameters; i++) {
     cout << "i = " << i << ", covMatrixFit[i]" << pDataSmall[i] << endl;
   }
 
@@ -101,7 +102,7 @@ std::pair<TH1D*, TGraphErrors*> RebinWithTsallisFit(TH1D* &histogramInput, int n
   std::tuple<TF1*, TMatrixDSym, TFitResultPtr> tsallisFitFunctionResult = TsallisFit(histogramInput, xRangeFit);
   TF1* fitFunctionDrawn = std::get<0>(tsallisFitFunctionResult);
   TFitResultPtr fitResult = std::get<2>(tsallisFitFunctionResult);
-  TGraphErrors* fitFunctionTGraphErrors = getFunctionTGraphErrorsFromFitResult(xRangeFit, fitFunctionDrawn, fitResult);
+  TGraphErrors* fitFunctionTGraphErrors = GetFunctionTGraphErrorsFromFitResult(xRangeFit, fitFunctionDrawn, fitResult);
 
   ///////////////////////////////////////////////////////////////////////////////////
   //////////////////////////// Rebin of input histogram /////////////////////////////
@@ -124,7 +125,14 @@ std::pair<TH1D*, TGraphErrors*> RebinWithTsallisFit(TH1D* &histogramInput, int n
   return rebinResultAndFitFunction;
 }
 
-std::tuple<TF1*, TMatrixDSym, TFitResultPtr> exponentialFitWithLog(TH1D* &histogramInput, double* xRangeFit) {
+std::tuple<TF1*, TMatrixDSym, TFitResultPtr> ExponentialFitWithLogTransfo(TH1D* &histogramInput, double* xRangeFit) {
+  // Transforming distribution wiht application of ln()
+  TH1D* H1D_logInput = (TH1D*)histogramInput->Clone((TString)histogramInput->GetName()+(TString)"logTransfo");
+  for (int iBin = 1; iBin < histogramInput->GetNbinsX() +1; iBin++) {
+    H1D_logInput->SetBinContent(iBin, std::log(H1D_logInput->GetBinContent(iBin)));
+    H1D_logInput->SetBinError(iBin, H1D_logInput->GetBinError(iBin)/H1D_logInput->GetBinContent(iBin)); // df = dx/x if f=ln(x)
+  }
+
   ////////////////////////////////// Fit initialisation //////////////////////////////////
   //Fit tools initialisation
   TF1 *fitFunctionInit;
@@ -133,7 +141,7 @@ std::tuple<TF1*, TMatrixDSym, TFitResultPtr> exponentialFitWithLog(TH1D* &histog
 
   TFitResultPtr fFitResult;
 
-  int nParameters = 3;
+  const int nParameters = 3;
   std::array<double, nParameters> parfitFunctionInit;
   std::array<double, nParameters> parfitFunctionFinal;
 
@@ -148,18 +156,19 @@ std::tuple<TF1*, TMatrixDSym, TFitResultPtr> exponentialFitWithLog(TH1D* &histog
   fitFunctionInit->SetParName(1, "expb");
   fitFunctionInit->SetParName(2, "expa");
 
-  int x30 = hData->GetXaxis()->FindBin(30.0);
-  double y30 = hData->GetBinContent(b30);
+  int x30 = H1D_logInput->GetXaxis()->FindBin(30.0);
+  double y30 = H1D_logInput->GetBinContent(x30);
 
   fitFunctionInit->SetParameters(std::log(std::max(1e-12, y30)), -5.0, 0.0);
 
-  // M0QR was used by archita
-  histogramInput->Fit(fitFunctionInit, "R0QL"); // P: Use Pearson chi-square method, using expected errors instead of the observed one given by TH1::GetBinError (default case). The expected error is instead estimated from the square-root of the bin function value. (WL for weithged likelihood is currently bugged in root, the fit crashes)
+  // M0QR was used by archita, R0QL by me; Archita's better
+  H1D_logInput->Fit(fitFunctionInit, "M0QR"); // 
 
-  parfitFunctionInit = fitFunctionInit->GetParameters();
-  // fitFunctionInit->GetParameters(&parfitFunctionInit[0]);
+  // parfitFunctionInit = fitFunctionInit->GetParameters();
+  fitFunctionInit->GetParameters(&parfitFunctionInit[0]);
 
-  fitFunctionFinal = new TF1("fitFunctionFinal_", "[0] + [1]*log(x) + [2]*x*log(x)", xRangeFit[0], xRangeFit[1]);
+  // fitFunctionFinal = new TF1("fitFunctionFinal_", "[0] + [1]*log(x) + [2]*x*log(x)", xRangeFit[0], xRangeFit[1]);
+  fitFunctionFinal = new TF1("fitFunctionDrawn_", "exp([0])*pow(x, [1]+[2]*x)", xRangeFit[0], xRangeFit[1]);
   fitFunctionInit->SetParName(0, "C");
   fitFunctionInit->SetParName(1, "expb");
   fitFunctionInit->SetParName(2, "expa");
@@ -168,20 +177,19 @@ std::tuple<TF1*, TMatrixDSym, TFitResultPtr> exponentialFitWithLog(TH1D* &histog
   // fitFunctionFinal->SetParLimits(1, -10, 10);
   // fitFunctionFinal->SetParLimits(2, 0.1, 100);
 
-  fFitResult = histogramInput->Fit(fitFunctionFinal, "R0QPS"); // P: Use Pearson chi-square method, using expected errors instead of the observed one given by TH1::GetBinError (default case). The expected error is instead estimated from the square-root of the bin function value. (WL for weithged likelihood is currently bugged in root, the fit crashes)
-  // gauss->Draw("same");
+  fFitResult = histogramInput->Fit(fitFunctionFinal, "M0QRS");
 
-  parfitFunctionFinal = fitFunctionFinal->GetParameters();
-  // fitFunctionFinal->GetParameters(&parfitFunctionFinal[0]);
+  // parfitFunctionFinal = fitFunctionFinal->GetParameters();
+  fitFunctionFinal->GetParameters(&parfitFunctionFinal[0]);
 
   TMatrixDSym covMatrixFit = fFitResult->GetCovarianceMatrix();
 
   Double_t *pDataSmall = covMatrixFit.GetMatrixArray();
-  for (int i = 0; i < 2*2; i++) {
-    cout << "i = " << i << ", covMatrixFit[i]" << pDataSmall[i] << endl;
+  for (int i = 0; i < nParameters*nParameters; i++) {
+    cout << "covMatrixFit[" << i << "] =" << pDataSmall[i] << endl;
   }
 
-  fitFunctionDrawn = new TF1("fitFunctionDrawn_", "[0] + [1]*log(x) + [2]*x*log(x)", xRangeFit[0], xRangeFit[1]);
+  fitFunctionDrawn = new TF1("fitFunctionDrawn_", "exp([0])*pow(x, [1]+[2]*x)", xRangeFit[0], xRangeFit[1]);
   fitFunctionDrawn->SetParName(0, "C");
   fitFunctionDrawn->SetParName(1, "expb");
   fitFunctionDrawn->SetParName(2, "expa");
