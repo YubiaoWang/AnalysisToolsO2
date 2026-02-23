@@ -6,7 +6,7 @@
 
 std::vector<double> MakeVariableBinning_twoWidths(double xMin, int nLeft, double xMiddle, double xMax, int nRight);
 std::vector<double> GetTH1Bins(TH1 H1_histo);
-TH1D* TGraphErrorsToTH1D(TGraphErrors tgraphToConvert);
+TH1D* TGraphErrorsToTH1D(TGraphErrors* tgraphToConvert);
 
 TH2D RebinVariableBins2D(TH2D* H2D_hist, int nBinsX, int nBinsY, double* binsX, double* binsY);
 TH2D RebinVariableBins2D_PriorWeightedBinMerging(TH2D* H2D_hist, int nBinsX, int nBinsY, double* binsX, double* binsY, TH1D* H1D_priorSpectrum);

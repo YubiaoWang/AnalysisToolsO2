@@ -1,9 +1,10 @@
-
 #ifndef HISTOGRAM_PLOTTING_C
 #define HISTOGRAM_PLOTTING_C
 
 
 #include "HistogramPlotting.h"
+#include "../Settings/AxisTitles.h"
+
 #include "../Settings/GlobalSettings.h"
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -825,6 +826,15 @@ void Draw_TH1_Histogram(TH1D* histogram, TString Context, TString* pdfName, TStr
   int dummyCollectionSize = 1;
   Draw_TH1_Histograms(singleHistArray, dummyLegend, dummyCollectionSize, Context, pdfName, texXtitle, texYtitle, texCollisionDataInfo, drawnWindow, legendPlacement, contextPlacement, options);
 }
+void Draw_TH1_Histogram(TH1D* histogram, TString Context, TString* pdfName, TString* &texXtitle, TString* &texYtitle, TString* texCollisionDataInfo, std::array<std::array<float, 2>, 2> drawnWindow, std::array<std::array<float, 2>, 2> legendPlacement, std::array<float, 2> contextPlacement, std::string options, TGraphErrors* optionalFit) {
+  TH1D* singleHistArray[1] = {histogram};
+  TString dummyLegend[1] = {(TString)""};
+  int dummyCollectionSize = 1;
+  std::vector<TGraphErrors*> optionalFitCollection{optionalFit};
+  Draw_TH1_Histograms(singleHistArray, dummyLegend, dummyCollectionSize, Context, pdfName, texXtitle, texYtitle, texCollisionDataInfo, drawnWindow, legendPlacement, contextPlacement, options, optionalFitCollection);
+}
+
+
 
 void Draw_TH2_Histograms(TH2D** histograms_collection, const TString* legendList_string, const int collectionSize, TString Context, TString* pdfName, TString* &texXtitle, TString* &texYtitle, TString* texCollisionDataInfo, std::array<std::array<float, 2>, 3> drawnWindow2D, double* th2Contours, int th2ContourNumber, std::string options, TPolyLine* optionalLine) {
 

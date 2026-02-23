@@ -42,20 +42,21 @@ std::vector<double> MakeVariableBinning_twoWidths(double xMin, int nLeft, double
   return bins;
 }
 
-TH1D* TGraphErrorsToTH1D(TGraphErrors tgraphToConvert) {
+TH1D* TGraphErrorsToTH1D(TGraphErrors* tgraphToConvert) {
   // assumes errors in x axis correspond to binning
-  int nBins = tgraphToConvert->DDDDD();
-  int nBinEdges
-  std::array<double, nBinEdges> binning;
-  for(int iBin = 0; iBin < nBins; iBin++){
-    binning[iBin] = tgraphToConvert.GetPointX(iBin) - tgraphToConvert.GetErrorX(iBin);
+  int nBins = tgraphToConvert->GetN();
+  std::vector<double> binningVector;
+  for(int iPoint = 0; iPoint < nBins; iPoint++){
+    binningVector.push_back(tgraphToConvert->GetPointX(iPoint) - tgraphToConvert->GetErrorX(iPoint));
   }
-  binning[nBins] = tgraphToConvert.GetPointX(nBins-1) - tgraphToConvert.GetErrorX(nBins-1); // right edge of last bin, as only left edge of bins have been filled so far
+  binningVector.push_back(tgraphToConvert->GetPointX(nBins-1) + tgraphToConvert->GetErrorX(nBins-1)); // right edge of last bin, as only left edge of bins have been filled so far
 
-  TH1D* convertedTH1D("convertedTH1D", "convertedTH1D", nBins, binning);
-  for(int iBin = 0; iBin < nBins; iBin++){
-    convertedTH1D->SetBinContent(iBin, tgraphToConvert.GetPointY(iBin));
-    convertedTH1D->SetBinError(iBin, tgraphToConvert.GetErrorY(iBin));
+  double* binning = &binningVector[0];
+  TH1D* convertedTH1D = new TH1D("convertedTH1D", "convertedTH1D", nBins, binning);
+  for(int iBin = 1; iBin <= nBins; iBin++){
+    int iPoint = iBin - 1;
+    convertedTH1D->SetBinContent(iBin, tgraphToConvert->GetPointY(iPoint));
+    convertedTH1D->SetBinError(iBin, tgraphToConvert->GetErrorY(iPoint)); // for some reason GetErrorY gets the error in X
   }
 
   return convertedTH1D;
