@@ -109,7 +109,7 @@ TString* texPartYYield_EntriesNorm = new TString("1/#it{N}_{tracks} d#it{N}_{tra
 TString* texPtPeak = new TString("#it{p}_{T,ch jet}^{rec} - #it{A}_{jet} #it{#rho} (GeV/#it{c}) of peak");
 TString* texPtAtThreshold = new TString("#it{p}_{T,ch jet}^{rec} - #it{A}_{jet} #it{#rho} (GeV/#it{c}) at 95% threshold");
 
-TString* texSystematicsPercent = new TString ("systematic error (%)");
+TString* texSystematicsRelative = new TString ("systematic error (relative)");
 
 
 //////////////////////////
