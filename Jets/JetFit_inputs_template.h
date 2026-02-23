@@ -7,4 +7,4 @@ TString* texCollisionDataInfo = new TString("pp #sqrt{#it{s}} = 13.6 TeV");
 const TString* texDatasetsComparisonType = new TString("");
 const TString* texDatasetsComparisonCommonDenominator = new TString("");
 
-TFile* file_O2Analysis_list = new TFile("HEPData-ins1755387-v2-Table_6.root");
+TFile* file_HEP_fullJetSpectrum = new TFile("HEPData-ins1755387-v2-Table_6.root");
