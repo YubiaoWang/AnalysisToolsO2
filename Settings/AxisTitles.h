@@ -7,6 +7,7 @@
 ////////////////// x-axis ////////////////// not really a good name for the separation anymore
 ////////////////////////////////////////////
 
+
 TString* texRapidity = new TString("y");
 TString* texPtX = new TString("#it{p}_{T} (GeV/#it{c})");
 TString* texXtX = new TString("#it{x}_{T}");
@@ -20,19 +21,21 @@ TString* texJetNTracks = new TString("#it{N}_{tracks}");
 TString* texJetNTrdTracks = new TString("#it{N}_{TRD tracks}");
 TString* texJetNTrdTracksRatio = new TString("#frac{#it{N}_{TRD tracks}}{#it{N}_{tracks}}");
 TString* texCentrality = new TString("Centrality (%)");
-TString* texSelectedMultiplicity = new TString("#it{N}_{tracks}^{selected}");
+TString* texSelectedMultiplicityTracks = new TString("#it{N}_{tracks}^{selected}");
+TString* texSelectedMultiplicityJets = new TString("#it{N}_{jets}^{selected}");
 TString* texLeadJetPt = new TString("#it{p}_{T,lead jet} (GeV/#it{c})");
 
 TString* texPtJetRec = new TString("#it{p}_{T,ch jet}^{rec} (GeV/#it{c})");
 TString* texPtJetGen = new TString("#it{p}_{T,ch jet}^{gen} (GeV/#it{c})");
 
 TString* texPtJetBkgCorrX = new TString("#it{p}_{T,ch jet}^{rec} - #it{A}_{jet} #it{#rho} (GeV/#it{c})");
-TString* texPtJetBkgFreeX = new TString("#it{p}_{T,ch jet}^{rec, bkg-free} (GeV/#it{c})");
+TString* texPtJetFluctCorrectedX = new TString("#it{p}_{T,ch jet}^{rec, fluct-corrected} (GeV/#it{c})");
 TString* texPtJetRawX = new TString("#it{p}_{T,jet raw} (GeV/#it{c})");
 
 TString* texVx = new TString("part Vx");
 TString* texVy = new TString("part Vy");
 TString* texVz = new TString("part Vz");
+TString* texPtHard = new TString("#it{p}_{T, Hard} (GeV/#it{c})");
 
 TString* texIUy = new TString("track IU y (cm)");
 
@@ -52,6 +55,7 @@ TString* texDcaZ = new TString("DCA_{z}");
 ////////////////////////////////////////////
 ////////////////// y-axis ////////////////// 
 ////////////////////////////////////////////
+TString* texPtHardDifferentialYield = new TString("1/#it{N}_{ev} d#it{N}/d#it{p}_{T, Hard} (GeV/#it{c})^{-1}");
 
 TString* texPtDifferentialYield = new TString("1/#it{N}_{ev} d#it{N}/d#it{p}_{T} (GeV/#it{c})^{-1}");
 TString* texCount = new TString("count");
@@ -174,6 +178,9 @@ TString* texTrackPhiYield_EventNorm = new TString("1/#it{N}_{ev} d#it{N}_{track}
 TString* texTrackPtYield_EntriesNorm = new TString("1/#it{N}_{track} d#it{N}_{track}/d#it{p}_{T} (GeV/#it{c})^{-1}");
 TString* texTrackEtaYield_EntriesNorm = new TString("1/#it{N}_{track} d#it{N}_{track}/d#it{#eta}");
 TString* texTrackPhiYield_EntriesNorm = new TString("1/#it{N}_{track} d#it{N}_{track}/d#it{#phi}");
+TString* texTrackPtYield_20GevNorm = new TString("1/#it{N}_{track20GeV} d#it{N}_{track}/d#it{p}_{T} (GeV/#it{c})^{-1}");
+TString* texTrackEtaYield_20GevNorm = new TString("1/#it{N}_{track20GeV} d#it{N}_{track}/d#it{#eta}");
+TString* texTrackPhiYield_20GevNorm = new TString("1/#it{N}_{track20GeV} d#it{N}_{track}/d#it{#phi}");
 TString* texTrackPtYield_EventNorm_CentWindow = new TString("1/#it{N}_{ev}^{in cent} d#it{N}_{track}/d#it{p}_{T} (GeV/#it{c})^{-1}");
 TString* texTrackEtaYield_EventNorm_CentWindow = new TString("1/#it{N}_{ev}^{in cent} d#it{N}_{track}/d#it{#eta}");
 TString* texTrackPhiYield_EventNorm_CentWindow = new TString("1/#it{N}_{ev}^{in cent} d#it{N}_{track}/d#it{#phi}");
