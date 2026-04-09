@@ -579,7 +579,7 @@ void Draw_Pt_spectrum_unfolded_singleDataset(int iDataset, int iRadius, int unfo
   unfoldParameter = Get_Pt_spectrum_unfolded(H1D_jetPt_unfolded, measuredInput, iDataset, iRadius, unfoldParameterInput, options).first;
   // TH1D* H1D_jetPt_unfolded2 = (TH1D*)H1D_jetPt_unfolded->Clone(H1D_jetPt_unfolded->GetName()+(TString)"H1D_jetPt_unfolded2");
 
-  cout << "comparison with raw measured" << endl; 
+  cout << "comparison with measured" << endl; 
   if (!useFineBinningTest) {
     Get_Pt_spectrum_bkgCorrected_genBinning(H1D_jetPt_measured_genBinning, iDataset, iRadius, options);
   } else {
@@ -894,8 +894,8 @@ void Draw_Pt_spectrum_unfolded_singleDataset(int iDataset, int iRadius, int unfo
   TString pdfTitleBase = (TString)"IterationsDump/jet_"+unfoldingInfo;//+Datasets[iDataset]+DatasetsNames[iDataset]+"_R="+Form("%.1f", arrayRadius[iRadius])+"_Pt_unfolded_";
   // std::array<std::array<float, 2>, 2> drawnWindow = {{{ptWindowDisplay[0], ptWindowDisplay[1]}, {-999, -999}}}; // {{xmin, xmax}, {ymin, ymax}}
 
-  // comparison with raw measured
-  TString unfoldedMeasuredCompLegend[2] = {"measured raw (gen binning)", "unfolded data"};
+  // comparison with measured
+  TString unfoldedMeasuredCompLegend[2] = {"measured (gen binning)", "unfolded data"};
   TString* pdfName_measuredComp = new TString(pdfTitleBase+"_measuredComp");
   Draw_TH1_Histograms(H1D_jetPt_unfolded_measuredComp, unfoldedMeasuredCompLegend, 2, textContext, pdfName_measuredComp, texPtX, yAxisLabel, texCollisionDataInfo, drawnWindowUnfoldedMeasurement, legendPlacementAuto, contextPlacementAuto, "logy");
   if (divideSuccessMeasured){
@@ -1064,7 +1064,7 @@ void Draw_Pt_spectrum_unfolded_parameterVariation_singleDataset(int iDataset, in
     cout << "((((((((((((()))))))))))))" << endl;
     Get_Pt_spectrum_unfolded(H1D_jetPt_unfolded[iUnfoldIteration], measuredInput, iDataset, iRadius, unfoldParameterInput, options);
 
-    // comparison with raw measured
+    // comparison with measured
     H1D_jetPt_unfolded_measuredComp[iUnfoldIteration] = (TH1D*)H1D_jetPt_unfolded[iUnfoldIteration]->Clone("H1D_jetPt_unfolded_measuredComp"+partialUniqueSpecifier);
     H1D_jetPt_ratio_measured[iUnfoldIteration] = (TH1D*)H1D_jetPt_unfolded[iUnfoldIteration]->Clone("H1D_jetPt_ratio_measured"+partialUniqueSpecifier);
     divideSuccessMeasured[iUnfoldIteration] = H1D_jetPt_ratio_measured[iUnfoldIteration]->Divide(H1D_jetPt_measured_genBinning);
@@ -1104,9 +1104,9 @@ void Draw_Pt_spectrum_unfolded_parameterVariation_singleDataset(int iDataset, in
   Draw_TH1_Histograms(H1D_jetPt_unfolded, unfoldingIterationLegend, nUnfoldIteration, textContext, pdfName, texPtX, yAxisLabel, texCollisionDataInfo, drawnWindowUnfoldedMeasurement, legendPlacementAuto, contextPlacementAuto, "logy");
 
 
-    // comparison with raw measured
-  // TString unfoldedMeasuredCompLegend[2] = {"unfolded data", "measured raw (gen binning)"};
-  unfoldingIterationLegend[nUnfoldIteration] = (TString)"raw measured";
+    // comparison with measured
+  // TString unfoldedMeasuredCompLegend[2] = {"unfolded data", "measured (gen binning)"};
+  unfoldingIterationLegend[nUnfoldIteration] = (TString)"measured";
   TString* pdfName_measuredComp = new TString("jet_"+jetType[iJetType]+"_"+jetLevel[iJetLevel]+"_"+partialUniqueSpecifier+"_Pt_unfolded_"+unfoldingInfo+"_measuredComp");
   Draw_TH1_Histograms(H1D_jetPt_unfolded_measuredComp, unfoldingIterationLegend, nUnfoldIteration+1, textContext, pdfName_measuredComp, texPtX, yAxisLabel, texCollisionDataInfo, drawnWindowUnfoldedMeasurement, legendPlacementAuto, contextPlacementAuto, "logy");
 
@@ -1273,7 +1273,7 @@ void Draw_Pt_spectrum_unfolded_datasetComparison(int iRadius, int unfoldParamete
     datasetNameSpecifier[iDataset] = "_"+DatasetsNames[iDataset]+Form("%.1d",iDataset);
 
 
-    cout << "comparison with raw measured" << endl; 
+    cout << "comparison with measured" << endl; 
     if (!useFineBinningTest) {
       Get_Pt_spectrum_bkgCorrected_genBinning(H1D_jetPt_measured_genBinning[iDataset], iDataset, iRadius, options);
     } else {
