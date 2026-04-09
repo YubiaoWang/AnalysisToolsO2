@@ -1099,3 +1099,4 @@ const bool isDatasetWeighted[nDatasets] = {true, false, true, false};
 const std::string histDatasetComparisonStructure = "twoByTwoDatasetPairs"; //
 const bool datasetsAreSubsetsofId0 = false;
 const bool trackHistsObsoleteVersion[nDatasets] = {true, true, true, true};
+const bool collHistIsObsolete[nDatasets] = {false, false};

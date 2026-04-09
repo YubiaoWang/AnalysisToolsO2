@@ -39,6 +39,7 @@ TFile* file_O2Analysis_MCfile_UnfoldingControl_response[nDatasets] = {new TFile(
 
 const TString trainIdData = "";
 const TString analysisWorkflowData = "jet-spectra-charged_lead_05_100"+trainIdData;
+const bool collHistIsObsolete[nDatasets] = {false};
 
 const TString trainIdBkg = "";
 const TString analysisWorkflowBkg = "jet-background-analysis"+trainIdBkg;
@@ -48,7 +49,7 @@ const TString analysisWorkflow_unfoldingControl = "jet-spectra-charged_lead_05_1
 const TString trainIdMC = "";
 const TString analysisWorkflowMC = "jet-spectra-charged_lead_05_100"+trainIdMC;
 const bool etaCutOnMatchedJetsIsObsoleteVersion = false;
-bool inputMcCollHistIsObsolete = true;
+const bool mcCollHistIsObsolete = false;
 
 
 #endif

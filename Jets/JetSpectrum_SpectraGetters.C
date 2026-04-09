@@ -536,19 +536,19 @@ void Get_Pt_spectrum_bkgCorrected_recBinning_preWidthScalingAtEnd(TH1D* &H1D_jet
   Get_Pt_spectrum_bkgCorrected_recBinning_preWidthScalingAtEndAndEvtNorm(H1D_jetPt, iDataset, iRadius, options, controlMC);
 
   if (!controlMC) {
-    NormaliseRawHistToNEvents(H1D_jetPt, GetNEventsSelected_JetFramework(file_O2Analysis_list[iDataset], analysisWorkflowData));
+    NormaliseRawHistToInputN(H1D_jetPt, GetNEventsSelected_JetFramework(file_O2Analysis_list[iDataset], analysisWorkflowData, collHistIsObsolete[iDataset]));
   } else {        
     if (mcIsWeighted) {
       if (!mcpInput_useMcpCollCountForUnfoldingResultNorm) {
-        NormaliseRawHistToNEvents(H1D_jetPt, GetNEventsSelected_JetFramework_weighted( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt, GetNEventsSelected_JetFramework_weighted( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, collHistIsObsolete[iDataset]));
       } else {
-        NormaliseRawHistToNEvents(H1D_jetPt, GetNEventsSelected_JetFramework_gen_weighted( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt, GetNEventsSelected_JetFramework_gen_weighted( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, mcCollHistIsObsolete));
       }
     } else {
       if (!mcpInput_useMcpCollCountForUnfoldingResultNorm) {
-        NormaliseRawHistToNEvents(H1D_jetPt, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, collHistIsObsolete[iDataset]));
       } else {
-        NormaliseRawHistToNEvents(H1D_jetPt, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, mcCollHistIsObsolete));
       }
     }
   }
@@ -571,19 +571,19 @@ void Get_Pt_spectrum_bkgCorrected_genBinning_preWidthScalingAtEnd(TH1D* &H1D_jet
   Get_Pt_spectrum_bkgCorrected_genBinning_preWidthScalingAtEndAndEvtNorm(H1D_jetPt, iDataset, iRadius, options, controlMC);
 
   if (!controlMC) {
-    NormaliseRawHistToNEvents(H1D_jetPt, GetNEventsSelected_JetFramework(file_O2Analysis_list[iDataset], analysisWorkflowData));
+    NormaliseRawHistToInputN(H1D_jetPt, GetNEventsSelected_JetFramework(file_O2Analysis_list[iDataset], analysisWorkflowData, collHistIsObsolete[iDataset]));
   } else {
     if (mcIsWeighted) {
       if (!mcpInput_useMcpCollCountForUnfoldingResultNorm) {
-        NormaliseRawHistToNEvents(H1D_jetPt, GetNEventsSelected_JetFramework_weighted( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt, GetNEventsSelected_JetFramework_weighted( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, collHistIsObsolete[iDataset]));
       } else {
-        NormaliseRawHistToNEvents(H1D_jetPt, GetNEventsSelected_JetFramework_gen_weighted( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt, GetNEventsSelected_JetFramework_gen_weighted( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, mcCollHistIsObsolete));
       }
     } else {
       if (!mcpInput_useMcpCollCountForUnfoldingResultNorm) {
-        NormaliseRawHistToNEvents(H1D_jetPt, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, collHistIsObsolete[iDataset]));
       } else {
-        NormaliseRawHistToNEvents(H1D_jetPt, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, mcCollHistIsObsolete));
       }
     }
   }
@@ -606,19 +606,19 @@ void Get_Pt_spectrum_bkgCorrected_fineBinning_preWidthScalingAtEnd(TH1D* &H1D_je
   Get_Pt_spectrum_bkgCorrected_fineBinning_preWidthScalingAtEndAndEvtNorm(H1D_jetPt, iDataset, iRadius, options, controlMC);
 
   if (!controlMC) {
-    NormaliseRawHistToNEvents(H1D_jetPt, GetNEventsSelected_JetFramework(file_O2Analysis_list[iDataset], analysisWorkflowData));
+    NormaliseRawHistToInputN(H1D_jetPt, GetNEventsSelected_JetFramework(file_O2Analysis_list[iDataset], analysisWorkflowData, collHistIsObsolete[iDataset]));
   } else {
     if (mcIsWeighted) {
       if (!mcpInput_useMcpCollCountForUnfoldingResultNorm) {
-        NormaliseRawHistToNEvents(H1D_jetPt, GetNEventsSelected_JetFramework_weighted( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt, GetNEventsSelected_JetFramework_weighted( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, collHistIsObsolete[iDataset]));
       } else {
-        NormaliseRawHistToNEvents(H1D_jetPt, GetNEventsSelected_JetFramework_gen_weighted( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt, GetNEventsSelected_JetFramework_gen_weighted( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, mcCollHistIsObsolete));
       }
     } else {
       if (!mcpInput_useMcpCollCountForUnfoldingResultNorm) {
-        NormaliseRawHistToNEvents(H1D_jetPt, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, collHistIsObsolete[iDataset]));
       } else {
-        NormaliseRawHistToNEvents(H1D_jetPt, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, mcCollHistIsObsolete));
       }
     }
   }
@@ -643,22 +643,22 @@ void Get_Pt_spectrum_mcp_genBinning_preWidthScalingAtEnd(TH1D* &H1D_jetPt_mcp, i
 
   if (mcIsWeighted) {
     if (!controlMC) {
-      NormaliseRawHistToNEvents(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen_weighted(file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
+      NormaliseRawHistToInputN(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen_weighted(file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC, mcCollHistIsObsolete));
     } else {
       if (controlMC_useResponseSplit) {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen_weighted(file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen_weighted(file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl, mcCollHistIsObsolete));
       } else {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen_weighted(file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen_weighted(file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, mcCollHistIsObsolete));
       }
     }
   } else {
     if (!controlMC) {
-      NormaliseRawHistToNEvents(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
+      NormaliseRawHistToInputN(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC, mcCollHistIsObsolete));
     } else {
       if (controlMC_useResponseSplit) {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl, mcCollHistIsObsolete));
       } else {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, mcCollHistIsObsolete));
       }
     }
   }
@@ -682,22 +682,22 @@ void Get_Pt_spectrum_mcp_fineBinning_preWidthScalingAtEnd(TH1D* &H1D_jetPt_mcp, 
 
   if (mcIsWeighted) {
     if (!controlMC) {
-      NormaliseRawHistToNEvents(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen_weighted( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
+      NormaliseRawHistToInputN(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen_weighted( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC, mcCollHistIsObsolete));
     } else {
       if (controlMC_useResponseSplit) {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen_weighted(file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen_weighted(file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl, mcCollHistIsObsolete));
       } else {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen_weighted(file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen_weighted(file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, mcCollHistIsObsolete));
       }
     }
   } else {
     if (!controlMC) {
-      NormaliseRawHistToNEvents(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
+      NormaliseRawHistToInputN(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC, mcCollHistIsObsolete));
     } else {
       if (controlMC_useResponseSplit) {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl, mcCollHistIsObsolete));
       } else {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, mcCollHistIsObsolete));
       }
     }
   }
@@ -721,22 +721,22 @@ void Get_Pt_spectrum_mcd_fineBinning_preWidthScalingAtEnd(TH1D* &H1D_jetPt_mcd, 
 
   if (mcIsWeighted) {
     if (!controlMC) {
-      NormaliseRawHistToNEvents(H1D_jetPt_mcd, GetNEventsSelected_JetFramework_weighted( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
+      NormaliseRawHistToInputN(H1D_jetPt_mcd, GetNEventsSelected_JetFramework_weighted( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
     } else {
       if (controlMC_useResponseSplit) {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcd, GetNEventsSelected_JetFramework_weighted(file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcd, GetNEventsSelected_JetFramework_weighted(file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
       } else {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcd, GetNEventsSelected_JetFramework_weighted(file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcd, GetNEventsSelected_JetFramework_weighted(file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
       }
     }
   } else {
     if (!controlMC) {
-      NormaliseRawHistToNEvents(H1D_jetPt_mcd, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
+      NormaliseRawHistToInputN(H1D_jetPt_mcd, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
     } else {
       if (controlMC_useResponseSplit) {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcd, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcd, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
       } else {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcd, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcd, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, collHistIsObsolete[iDataset]));
       }
     }
   }
@@ -760,22 +760,22 @@ void Get_Pt_spectrum_mcd_recBinning_preWidthScalingAtEnd(TH1D* &H1D_jetPt_mcd, i
 
   if (mcIsWeighted) {
     if (!controlMC) {
-      NormaliseRawHistToNEvents(H1D_jetPt_mcd, GetNEventsSelected_JetFramework_weighted( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
+      NormaliseRawHistToInputN(H1D_jetPt_mcd, GetNEventsSelected_JetFramework_weighted( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
     } else {
       if (controlMC_useResponseSplit) {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcd, GetNEventsSelected_JetFramework_weighted(file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcd, GetNEventsSelected_JetFramework_weighted(file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
       } else {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcd, GetNEventsSelected_JetFramework_weighted(file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcd, GetNEventsSelected_JetFramework_weighted(file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
       }
     }
   } else {
     if (!controlMC) {
-      NormaliseRawHistToNEvents(H1D_jetPt_mcd, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
+      NormaliseRawHistToInputN(H1D_jetPt_mcd, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
     } else {
       if (controlMC_useResponseSplit) {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcd, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcd, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
       } else {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcd, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcd, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, collHistIsObsolete[iDataset]));
       }
     }
   }
@@ -799,22 +799,22 @@ void Get_Pt_spectrum_mcd_genBinning_preWidthScalingAtEnd(TH1D* &H1D_jetPt_mcd, i
 
   if (mcIsWeighted) {
     if (!controlMC) {
-      NormaliseRawHistToNEvents(H1D_jetPt_mcd, GetNEventsSelected_JetFramework_weighted( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
+      NormaliseRawHistToInputN(H1D_jetPt_mcd, GetNEventsSelected_JetFramework_weighted( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
     } else {
       if (controlMC_useResponseSplit) {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcd, GetNEventsSelected_JetFramework_weighted(file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcd, GetNEventsSelected_JetFramework_weighted(file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
       } else {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcd, GetNEventsSelected_JetFramework_weighted(file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcd, GetNEventsSelected_JetFramework_weighted(file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
       }
     }
   } else {
     if (!controlMC) {
-      NormaliseRawHistToNEvents(H1D_jetPt_mcd, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
+      NormaliseRawHistToInputN(H1D_jetPt_mcd, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
     } else {
       if (controlMC_useResponseSplit) {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcd, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcd, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
       } else {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcd, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcd, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, collHistIsObsolete[iDataset]));
       }
     }
   }
@@ -838,22 +838,22 @@ void Get_Pt_spectrum_mcdMatched_genBinning_preWidthScalingAtEnd(TH1D* &H1D_jetPt
 
   if (mcIsWeighted) {
     if (!controlMC) {
-      NormaliseRawHistToNEvents(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework_weighted( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
+      NormaliseRawHistToInputN(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework_weighted( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
     } else {
       if (controlMC_useResponseSplit) {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework_weighted(file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework_weighted(file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
       } else {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework_weighted(file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework_weighted(file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
       }
     }
   } else {
     if (!controlMC) {
-      NormaliseRawHistToNEvents(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
+      NormaliseRawHistToInputN(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
     } else {
       if (controlMC_useResponseSplit) {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
       } else {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, collHistIsObsolete[iDataset]));
       }
     }
   }
@@ -877,22 +877,22 @@ void Get_Pt_spectrum_mcdMatched_recBinning_preWidthScalingAtEnd(TH1D* &H1D_jetPt
 
   if (mcIsWeighted) {
     if (!controlMC) {
-      NormaliseRawHistToNEvents(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework_weighted( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
+      NormaliseRawHistToInputN(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework_weighted( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
     } else {
       if (controlMC_useResponseSplit) {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework_weighted(file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework_weighted(file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
       } else {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework_weighted(file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework_weighted(file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
       }
     }
   } else {
     if (!controlMC) {
-      NormaliseRawHistToNEvents(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
+      NormaliseRawHistToInputN(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
     } else {
       if (controlMC_useResponseSplit) {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
       } else {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, collHistIsObsolete[iDataset]));
       }
     }
   }
@@ -916,22 +916,22 @@ void Get_Pt_spectrum_mcdMatched_fineBinning_preWidthScalingAtEnd(TH1D* &H1D_jetP
 
   if (mcIsWeighted) {
     if (!controlMC) {
-      NormaliseRawHistToNEvents(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework_weighted( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
+      NormaliseRawHistToInputN(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework_weighted( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
     } else {
       if (controlMC_useResponseSplit) {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework_weighted(file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework_weighted(file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
       } else {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework_weighted(file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework_weighted(file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
       }
     }
   } else {
     if (!controlMC) {
-      NormaliseRawHistToNEvents(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
+      NormaliseRawHistToInputN(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
     } else {
       if (controlMC_useResponseSplit) {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
       } else {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcdMatched, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, collHistIsObsolete[iDataset]));
       }
     }
   }
@@ -955,22 +955,22 @@ void Get_Pt_spectrum_mcpMatched_genBinning_preWidthScalingAtEnd(TH1D* &H1D_jetPt
 
   if (mcIsWeighted) {
     if (!controlMC) {
-      NormaliseRawHistToNEvents(H1D_jetPt_mcpMatched, GetNEventsSelected_JetFramework_gen_weighted( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
+      NormaliseRawHistToInputN(H1D_jetPt_mcpMatched, GetNEventsSelected_JetFramework_gen_weighted( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC, mcCollHistIsObsolete));
     } else {
       if (controlMC_useResponseSplit) {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcpMatched, GetNEventsSelected_JetFramework_gen_weighted(file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcpMatched, GetNEventsSelected_JetFramework_gen_weighted(file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl, mcCollHistIsObsolete));
       } else {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcpMatched, GetNEventsSelected_JetFramework_gen_weighted(file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcpMatched, GetNEventsSelected_JetFramework_gen_weighted(file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, mcCollHistIsObsolete));
       }
     }
   } else {
     if (!controlMC) {
-      NormaliseRawHistToNEvents(H1D_jetPt_mcpMatched, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
+      NormaliseRawHistToInputN(H1D_jetPt_mcpMatched, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC, mcCollHistIsObsolete));
     } else {
       if (controlMC_useResponseSplit) {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcpMatched, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcpMatched, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl, mcCollHistIsObsolete));
       } else {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcpMatched, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcpMatched, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, mcCollHistIsObsolete));
       }
     }
   }
@@ -994,22 +994,22 @@ void Get_Pt_spectrum_mcpMatched_fineBinning_preWidthScalingAtEnd(TH1D* &H1D_jetP
 
   if (mcIsWeighted) {
     if (!controlMC) {
-      NormaliseRawHistToNEvents(H1D_jetPt_mcpMatched, GetNEventsSelected_JetFramework_gen_weighted( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
+      NormaliseRawHistToInputN(H1D_jetPt_mcpMatched, GetNEventsSelected_JetFramework_gen_weighted( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC, mcCollHistIsObsolete));
     } else {
       if (controlMC_useResponseSplit) {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcpMatched, GetNEventsSelected_JetFramework_gen_weighted(file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcpMatched, GetNEventsSelected_JetFramework_gen_weighted(file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl, mcCollHistIsObsolete));
       } else {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcpMatched, GetNEventsSelected_JetFramework_gen_weighted(file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcpMatched, GetNEventsSelected_JetFramework_gen_weighted(file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, mcCollHistIsObsolete));
       }
     }
   } else {
     if (!controlMC) {
-      NormaliseRawHistToNEvents(H1D_jetPt_mcpMatched, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
+      NormaliseRawHistToInputN(H1D_jetPt_mcpMatched, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC, mcCollHistIsObsolete));
     } else {
       if (controlMC_useResponseSplit) {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcpMatched, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcpMatched, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl, mcCollHistIsObsolete));
       } else {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcpMatched, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcpMatched, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, mcCollHistIsObsolete));
       }
     }
   }
@@ -1033,22 +1033,22 @@ void Get_Pt_spectrum_mcp_recBinning_preWidthScalingAtEnd(TH1D* &H1D_jetPt_mcp, i
 
   if (mcIsWeighted) {
     if (!controlMC) {
-      NormaliseRawHistToNEvents(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen_weighted( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
+      NormaliseRawHistToInputN(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen_weighted( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC, mcCollHistIsObsolete));
     } else {
       if (controlMC_useResponseSplit) {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen_weighted(file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen_weighted(file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl, mcCollHistIsObsolete));
       } else {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen_weighted(file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen_weighted(file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, mcCollHistIsObsolete));
       }
     }
   } else {
     if (!controlMC) {
-      NormaliseRawHistToNEvents(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));
+      NormaliseRawHistToInputN(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC, mcCollHistIsObsolete));
     } else {
       if (controlMC_useResponseSplit) {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_UnfoldingControl_response[iDataset], analysisWorkflow_unfoldingControl, mcCollHistIsObsolete));
       } else {
-        NormaliseRawHistToNEvents(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+        NormaliseRawHistToInputN(H1D_jetPt_mcp, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, mcCollHistIsObsolete));
       }
     }
   }

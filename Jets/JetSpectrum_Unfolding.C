@@ -364,20 +364,20 @@ std::pair<int, RooUnfold*> Get_Pt_spectrum_unfolded_preWidthScalingAtEnd(TH1D* &
   std::pair<int, RooUnfold*> unfoldInfo = Get_Pt_spectrum_unfolded_preWidthScalingAtEndAndEvtNorm(H1D_jetPt_unfolded, measuredInput, iDataset, iRadius, unfoldParameterInput, options, controlMC, inputIsGen);
   if (normaliseUnfoldingResultsAtEnd){
     if (!controlMC && options.find("inputIsMC") == std::string::npos) { // if option controlMC is false, and if inputIsMC has not been found in options; necessary check for the mcp-folded unfolding test as we want to normalise by the number of events in the MC file
-      NormaliseRawHistToNEvents(H1D_jetPt_unfolded, GetNEventsSelected_JetFramework(file_O2Analysis_list[iDataset], analysisWorkflowData));
+      NormaliseRawHistToInputN(H1D_jetPt_unfolded, GetNEventsSelected_JetFramework(file_O2Analysis_list[iDataset], analysisWorkflowData, collHistIsObsolete[iDataset]));
     } else {
       TFile* fileNorm = controlMC ? file_O2Analysis_MCfile_UnfoldingControl_input[iDataset] : file_O2Analysis_MCfile_GeneralResponse[iDataset];
       if (mcIsWeighted) {
         if (!inputIsGen) {
-          NormaliseRawHistToNEvents(H1D_jetPt_unfolded, GetNEventsSelected_JetFramework_weighted(fileNorm, analysisWorkflow_unfoldingControl));
+          NormaliseRawHistToInputN(H1D_jetPt_unfolded, GetNEventsSelected_JetFramework_weighted(fileNorm, analysisWorkflow_unfoldingControl));
         } else {
-          NormaliseRawHistToNEvents(H1D_jetPt_unfolded, GetNEventsSelected_JetFramework_gen_weighted(fileNorm, analysisWorkflow_unfoldingControl));
+          NormaliseRawHistToInputN(H1D_jetPt_unfolded, GetNEventsSelected_JetFramework_gen_weighted(fileNorm, analysisWorkflow_unfoldingControl));
         }
       } else {
         if (!inputIsGen) {
-          NormaliseRawHistToNEvents(H1D_jetPt_unfolded, GetNEventsSelected_JetFramework(fileNorm, analysisWorkflow_unfoldingControl));
+          NormaliseRawHistToInputN(H1D_jetPt_unfolded, GetNEventsSelected_JetFramework(fileNorm, analysisWorkflow_unfoldingControl));
         } else {
-          NormaliseRawHistToNEvents(H1D_jetPt_unfolded, GetNEventsSelected_JetFramework_gen(fileNorm, analysisWorkflow_unfoldingControl));
+          NormaliseRawHistToInputN(H1D_jetPt_unfolded, GetNEventsSelected_JetFramework_gen(fileNorm, analysisWorkflow_unfoldingControl));
         }
       }      
     }
@@ -578,19 +578,19 @@ void Get_Pt_spectrum_dataUnfoldedThenRefolded_preWidthScalingAtEnd(TH1D* &H1D_je
 
   if (normaliseUnfoldingResultsAtEnd){
     if (!controlMC) {
-      NormaliseRawHistToNEvents(H1D_jetPt_unfoldedThenRefolded, GetNEventsSelected_JetFramework(file_O2Analysis_list[iDataset], analysisWorkflowData));
+      NormaliseRawHistToInputN(H1D_jetPt_unfoldedThenRefolded, GetNEventsSelected_JetFramework(file_O2Analysis_list[iDataset], analysisWorkflowData, collHistIsObsolete[iDataset]));
     } else {
       if (mcIsWeighted) {
         if (!inputIsGen) {
-          NormaliseRawHistToNEvents(H1D_jetPt_unfoldedThenRefolded, GetNEventsSelected_JetFramework_weighted( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+          NormaliseRawHistToInputN(H1D_jetPt_unfoldedThenRefolded, GetNEventsSelected_JetFramework_weighted( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, collHistIsObsolete[iDataset]));
         } else {
-          NormaliseRawHistToNEvents(H1D_jetPt_unfoldedThenRefolded, GetNEventsSelected_JetFramework_gen_weighted( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+          NormaliseRawHistToInputN(H1D_jetPt_unfoldedThenRefolded, GetNEventsSelected_JetFramework_gen_weighted( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, mcCollHistIsObsolete));
         }
       } else {
         if (!inputIsGen) {
-          NormaliseRawHistToNEvents(H1D_jetPt_unfoldedThenRefolded, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+          NormaliseRawHistToInputN(H1D_jetPt_unfoldedThenRefolded, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, collHistIsObsolete[iDataset]));
         } else {
-          NormaliseRawHistToNEvents(H1D_jetPt_unfoldedThenRefolded, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+          NormaliseRawHistToInputN(H1D_jetPt_unfoldedThenRefolded, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, mcCollHistIsObsolete));
         }
       }
     }
@@ -716,19 +716,19 @@ void Get_Pt_spectrum_dataUnfoldedThenRefolded_RooUnfoldMethod_preWidthScalingAtE
 
   if (normaliseUnfoldingResultsAtEnd){
     if (!controlMC) {
-      NormaliseRawHistToNEvents(H1D_jetPt_unfoldedThenRefolded, GetNEventsSelected_JetFramework(file_O2Analysis_list[iDataset], analysisWorkflowData));
+      NormaliseRawHistToInputN(H1D_jetPt_unfoldedThenRefolded, GetNEventsSelected_JetFramework(file_O2Analysis_list[iDataset], analysisWorkflowData, collHistIsObsolete[iDataset]));
     } else {
       if (mcIsWeighted) {
         if (!inputIsGen) {
-          NormaliseRawHistToNEvents(H1D_jetPt_unfoldedThenRefolded, GetNEventsSelected_JetFramework_weighted( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+          NormaliseRawHistToInputN(H1D_jetPt_unfoldedThenRefolded, GetNEventsSelected_JetFramework_weighted( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, collHistIsObsolete[iDataset]));
         } else {
-          NormaliseRawHistToNEvents(H1D_jetPt_unfoldedThenRefolded, GetNEventsSelected_JetFramework_gen_weighted( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+          NormaliseRawHistToInputN(H1D_jetPt_unfoldedThenRefolded, GetNEventsSelected_JetFramework_gen_weighted( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, mcCollHistIsObsolete));
         }
       } else {
         if (!inputIsGen) {
-          NormaliseRawHistToNEvents(H1D_jetPt_unfoldedThenRefolded, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+          NormaliseRawHistToInputN(H1D_jetPt_unfoldedThenRefolded, GetNEventsSelected_JetFramework( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, collHistIsObsolete[iDataset]));
         } else {
-          NormaliseRawHistToNEvents(H1D_jetPt_unfoldedThenRefolded, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl));
+          NormaliseRawHistToInputN(H1D_jetPt_unfoldedThenRefolded, GetNEventsSelected_JetFramework_gen( file_O2Analysis_MCfile_UnfoldingControl_input[iDataset], analysisWorkflow_unfoldingControl, mcCollHistIsObsolete));
         }
       }
     }
@@ -841,9 +841,9 @@ void Get_Pt_spectrum_mcpFoldedWithFluctuations_preWidthScalingAtEnd(TH1D* &H1D_j
 
   if (normaliseDistribsInComparisonPlots) {
     if (mcIsWeighted) {
-      NormaliseRawHistToNEvents(H1D_jetPt_mcpFolded, GetNEventsSelected_JetFramework_gen_weighted(file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));//always MCfile_generalresponse here because mcpFolded test doesn't use MC info for the unfolding: we only unfold with fluct matrix from data
+      NormaliseRawHistToInputN(H1D_jetPt_mcpFolded, GetNEventsSelected_JetFramework_gen_weighted(file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC, mcCollHistIsObsolete));//always MCfile_generalresponse here because mcpFolded test doesn't use MC info for the unfolding: we only unfold with fluct matrix from data
     } else {
-      NormaliseRawHistToNEvents(H1D_jetPt_mcpFolded, GetNEventsSelected_JetFramework_gen(file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));//always MCfile_generalresponse here because mcpFolded test doesn't use MC info for the unfolding: we only unfold with fluct matrix from data
+      NormaliseRawHistToInputN(H1D_jetPt_mcpFolded, GetNEventsSelected_JetFramework_gen(file_O2Analysis_MCfile_GeneralResponse[iDataset], analysisWorkflowMC));//always MCfile_generalresponse here because mcpFolded test doesn't use MC info for the unfolding: we only unfold with fluct matrix from data
     }
   }
   if (showFunctionInAndOutLog) {cout << "--- OUT Get_Pt_spectrum_mcpFoldedWithFluctuations_preWidthScalingAtEnd()" << endl;};

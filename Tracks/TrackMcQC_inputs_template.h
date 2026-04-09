@@ -956,4 +956,4 @@ const TString wagonId[nDatasets] = {"",
                                     };
 const bool isDatasetWeighted[nDatasets] = {true, false};
 const std::string histDatasetComparisonStructure = "";
-const bool datasetsAreSubsetsofId0 = false;
+const bool datasetsAreSubsetsofId0 = true;

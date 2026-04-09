@@ -25,11 +25,11 @@ void NormaliseRawHistToIntegral(TH1D* histogram) {
 }
 
 
-void NormaliseYieldToNEvents(TH1D* histogram, double nEvents) { // also takes care of the transformation of raw count to dCount/dQuantity (like dN/dpT), thanks to option "width"
-  histogram->Scale(1./nEvents,"width"); // If option contains "width" the bin contents and errors are divided by the bin width.
+void NormaliseAsYieldToInputN(TH1D* histogram, double inputN) { // also takes care of the transformation of raw count to dCount/dQuantity (like dN/dpT), thanks to option "width"
+  histogram->Scale(1./inputN,"width"); // If option contains "width" the bin contents and errors are divided by the bin width.
 }
-void NormaliseRawHistToNEvents(TH1D* histogram, double nEvents) { 
-  histogram->Scale(1./nEvents,""); // If option contains "width" the bin contents and errors are divided by the bin width.
+void NormaliseRawHistToInputN(TH1D* histogram, double inputN) { 
+  histogram->Scale(1./inputN,""); // If option contains "width" the bin contents and errors are divided by the bin width.
 }
 
 void TransformRawHistToYield(TH1D* histogram){
@@ -45,14 +45,22 @@ long int GetNEventsSel8(TFile* file_O2Analysis) {
   return ((TH1I*)file_O2Analysis->Get("event-selection-task/hColCounterAcc"))->GetEntries(); //this is only sel8 (no sel8Full for example) and doesn't exclude collisions cut by the vertexZ pos cut
 }
 
-long int GetNEventsSelected_JetFramework(TFile* file_O2Analysis, const char analysisWorkflow[]) {
-  return ((TH1I*)file_O2Analysis->Get((TString)analysisWorkflow+"/h_collisions"))->GetBinContent(3); //this should be the actual selection AND take vertexZ into account;
+long int GetNEventsSelected_JetFramework(TFile* file_O2Analysis, const char analysisWorkflow[], bool collHistIsObsolete = false) {
+  if (collHistIsObsolete) {
+    return ((TH1I*)file_O2Analysis->Get((TString)analysisWorkflow+"/h_collisions"))->GetBinContent(3); //this takes the actual selection AND vertexZ into account;
+  } else {
+    return ((TH1I*)file_O2Analysis->Get((TString)analysisWorkflow+"/h_collisions"))->GetBinContent(4); //this takes the actual selection AND vertexZ into account;
+  }
 }
-double GetNEventsSelected_JetFramework_weighted(TFile* file_O2Analysis, const char analysisWorkflow[]) {
-  return ((TH1F*)file_O2Analysis->Get((TString)analysisWorkflow+"/h_collisions_weighted"))->GetBinContent(3); //this should be the actual selection AND take vertexZ into account; 
+double GetNEventsSelected_JetFramework_weighted(TFile* file_O2Analysis, const char analysisWorkflow[], bool collHistIsObsolete = false) {
+  if (collHistIsObsolete) {
+    return ((TH1F*)file_O2Analysis->Get((TString)analysisWorkflow+"/h_collisions_weighted"))->GetBinContent(3); //this takes the actual selection AND vertexZ into account;
+  } else {
+    return ((TH1F*)file_O2Analysis->Get((TString)analysisWorkflow+"/h_collisions_weighted"))->GetBinContent(4); //this takes the actual selection AND vertexZ into account;
+  }
 }
 
-long int GetNEventsSelected_JetFramework_gen(TFile* file_O2Analysis, const char analysisWorkflow[]) {
+long int GetNEventsSelected_JetFramework_gen(TFile* file_O2Analysis, const char analysisWorkflow[], bool mcCollHistIsObsolete = false) {
   int ibinFinalSelection;
   if (mcCollHistIsObsolete) {
     ibinFinalSelection = 4;
@@ -62,7 +70,7 @@ long int GetNEventsSelected_JetFramework_gen(TFile* file_O2Analysis, const char 
     return ((TH1I*)file_O2Analysis->Get((TString)analysisWorkflow+"/h_mccollisions"))->GetBinContent(ibinFinalSelection);
   }
 }
-double GetNEventsSelected_JetFramework_gen_weighted(TFile* file_O2Analysis, const char analysisWorkflow[]) {
+double GetNEventsSelected_JetFramework_gen_weighted(TFile* file_O2Analysis, const char analysisWorkflow[], bool mcCollHistIsObsolete = false) {
   int ibinFinalSelection;
   if (mcCollHistIsObsolete) {
     ibinFinalSelection = 4;
