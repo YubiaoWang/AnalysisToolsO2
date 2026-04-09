@@ -97,6 +97,11 @@ bool automaticBestSvdParameter = false; // automatic function not well setup yet
 
 bool mcpInput_useMcpCollCountForUnfoldingResultNorm = true; //if controlMC is true, mcpInput_useMcpCollCountForUnfoldingResultNorm=true will normalise by N_mccoll rather than N_coll : just unfolding function for now, maybe try getmcpdistrib as well
 
+const bool deltaPtHistStopsAt100 = true; //temporary fix to issue of delta pt histogram stopping at 100/-100 
+
+
+
+
 float ptWindowDisplay[2] = {5, 140}; // used for drawn histograms of unfolded distrib
 std::array<std::array<float, 2>, 2> drawnWindowUnfoldedMeasurement = {{{ptWindowDisplay[0], ptWindowDisplay[1]}, {-999, -999}}}; // {{xmin, xmax}, {ymin, ymax}}
 

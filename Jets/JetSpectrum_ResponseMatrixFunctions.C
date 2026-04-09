@@ -578,9 +578,33 @@ void Get_PtResponseMatrix_Fluctuations(TH2D* &H2D_jetPtResponseMatrix_fluctuatio
     H2D_fluctuations_centrality->Sumw2();
 
 
-    int ibinCent_low = H2D_fluctuations_centrality->GetXaxis()->FindBin(centralityRange[0]);
-    int ibinCent_high = H2D_fluctuations_centrality->GetXaxis()->FindBin(centralityRange[1]);
-    H1D_fluctuations = (TH1D*)H2D_fluctuations_centrality->ProjectionY("bkgFluctuationCentrality_highRes_"+partialUniqueSpecifier, ibinCent_low, ibinCent_high, "e");
+    if (deltaPtHistStopsAt100) { // remove this once fix done and rerun hyperloop train for deltapt with more than -100,100 range; and  
+
+      int ibinCent_low = H2D_fluctuations_centrality->GetXaxis()->FindBin(centralityRange[0]);
+      int ibinCent_high = H2D_fluctuations_centrality->GetXaxis()->FindBin(centralityRange[1]);
+      TH1D* H1D_fluctuations_temp = (TH1D*)H2D_fluctuations_centrality->ProjectionY("bkgFluctuationCentrality_highRes_"+partialUniqueSpecifier, ibinCent_low, ibinCent_high, "e");
+
+      int nBinsFluct = 2000;
+      TH1D H1D_fluctuations_extended = TH1D("H1D_response_extended_"+partialUniqueSpecifier, "H1D_response_extended_"+partialUniqueSpecifier, nBinsFluct, -200, 200);
+      int iBinMin_H1D_fluctuations = 500;
+      int iBinMax_H1D_fluctuations = 1500;
+      for(int iBinFluct = 0; iBinFluct <= H1D_fluctuations_extended.GetNbinsX()+1; iBinFluct++){
+        if (iBinFluct < iBinMin_H1D_fluctuations + 1 || iBinFluct > iBinMax_H1D_fluctuations) {
+          H1D_fluctuations_extended.SetBinContent(iBinFluct, 0);
+          H1D_fluctuations_extended.SetBinError(iBinFluct, 0);
+        } else {
+          H1D_fluctuations_extended.SetBinContent(iBinFluct, H1D_fluctuations_temp->GetBinContent(iBinFluct - iBinMin_H1D_fluctuations));
+          H1D_fluctuations_extended.SetBinError(iBinFluct, H1D_fluctuations_temp->GetBinError(iBinFluct - iBinMin_H1D_fluctuations));
+        }
+      }
+      H1D_fluctuations = (TH1D*)H1D_fluctuations_extended.Clone("bkgFluctuationCentrality_highRes_"+partialUniqueSpecifier);
+    } else {
+      int ibinCent_low = H2D_fluctuations_centrality->GetXaxis()->FindBin(centralityRange[0]);
+      int ibinCent_high = H2D_fluctuations_centrality->GetXaxis()->FindBin(centralityRange[1]);
+      H1D_fluctuations = (TH1D*)H2D_fluctuations_centrality->ProjectionY("bkgFluctuationCentrality_highRes_"+partialUniqueSpecifier, ibinCent_low, ibinCent_high, "e");
+    }
+    // 1   2   3   4   5        6   7   8   9   10    11    12    13    14    15         16    17    18    19    20
+    // 01, 12, 23, 34, 45,      56, 67, 78, 89, 910, 1011, 1112, 1213, 1314, 1415,      1516, 1617, 1718, 1819, 1920 
 
     NormaliseRawHistToIntegral(H1D_fluctuations); // normalising fluctuations to 1
     // cout << "Integral H1D_fluctuations: " << H1D_fluctuations->Integral(1, H1D_fluctuations->GetNbinsX()) << endl;
@@ -601,12 +625,16 @@ void Get_PtResponseMatrix_Fluctuations(TH2D* &H2D_jetPtResponseMatrix_fluctuatio
         // int iBin_fluct_high = H1D_fluctuations->GetXaxis()->FindBin(ptRec_up - ptGen - GLOBAL_epsilon);
         iBin_fluct_low = H1D_fluctuations->GetXaxis()->FindBin(ptRec_low - ptGen + GLOBAL_epsilon);
         if (iBinGen == 10 && (iBin_fluct_low >= iBin_fluct_high)) { // checks iBinRec =10 so that the message doesn't appear NbinsX*NBinsY times
+          if (!deltaPtHistStopsAt100){
           cout << "Get_PtResponseMatrix_Fluctuations: some bins are counted twice in the integral, binning needs to be looked at, right now the fluctuation matrix has too many entries" << endl;
+          }
         }
         iBin_fluct_high = H1D_fluctuations->GetXaxis()->FindBin(ptRec_up - ptGen - GLOBAL_epsilon)-1;
+        
         H2D_response.SetBinContent(iBinRec, iBinGen, H1D_fluctuations->IntegralAndError(iBin_fluct_low, iBin_fluct_high, integralError)); 
         H2D_response.SetBinError(iBinRec, iBinGen, integralError); 
-        // if (iBinRec == 10) {
+
+        // if (iBinGen == 10) {
         //   cout << "DeltaBin = " << iBin_fluct_high - iBin_fluct_low << ", iBin_low = " << iBin_fluct_low << ", iBin_high = " << iBin_fluct_high << endl;
         // }
       }
