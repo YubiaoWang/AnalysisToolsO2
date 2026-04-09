@@ -20,8 +20,6 @@ void JetSpectrum_RunMacro() {
   snprintf(optionsAnalysis, sizeof(optionsAnalysis), "%s,%s", unfoldingPrior, unfoldingMethod);
   cout << "Analysis options are: " << optionsAnalysis << endl;
 
-  mcCollHistIsObsolete = inputMcCollHistIsObsolete;
-
   int iDataset = 0;
   int iRadius = 0;
 
