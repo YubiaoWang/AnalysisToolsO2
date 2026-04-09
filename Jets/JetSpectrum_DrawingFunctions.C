@@ -605,7 +605,9 @@ void Draw_Pt_spectrum_unfolded_singleDataset(int iDataset, int iRadius, int unfo
     // comparison with run2 results rebinned using a fit (errors look way underestimated; tsallis function not great aboe 100+ GeV; where should one eval the function inside a bin? probably not just the center)
     H1D_jetPt_unfolded_run2Comp_fitRebin[0] = (TH1D*)H1D_jetPt_unfolded->Clone("H1D_jetPt_unfolded_run2Comp_fitRebin"+partialUniqueSpecifier);
     double fitPtRange[2] = {ptBinsJetsGen_run2[iRadius][0], ptMaxFit}; //-1 because Tsallis shape only accurate until 120GeV or so
-    std::pair<TH1D*, TGraphErrors*> pairResult_run2 = RebinWithTsallisFit(H1D_jetPt_run2_MLPaperFile, nBinPtJetsGen[iRadius], ptBinsJetsGen[iRadius], fitPtRange);
+    std::tuple<TF1*, TMatrixDSym, TFitResultPtr> exponentialFitWithLogTransfoResult_run2 = ExponentialFitWithLogTransfo(H1D_jetPt_run2_MLPaperFile, fitPtRange);
+    TString histName_run2 = "rebinWithFit_run2"+partialUniqueSpecifier;
+    std::pair<TH1D*, TGraphErrors*> pairResult_run2 = RebinWithFit(H1D_jetPt_run2_MLPaperFile, nBinPtJetsGen[iRadius], ptBinsJetsGen[iRadius], fitPtRange, histName_run2, exponentialFitWithLogTransfoResult_run2);
     H1D_jetPt_run2_MLPaperFile_rebinned = pairResult_run2.first;
     TGraph_jetPt_run2_MLPaperFile_fit.push_back(pairResult_run2.second);
     H1D_jetPt_unfolded_run2Comp_fitRebin[1] = (TH1D*)H1D_jetPt_run2_MLPaperFile_rebinned->Clone("H1D_jetPt_unfolded_run2_rebinned_fitRebin"+partialUniqueSpecifier);
@@ -768,7 +770,10 @@ void Draw_Pt_spectrum_unfolded_singleDataset(int iDataset, int iRadius, int unfo
     H1D_jetPt_unfolded_run2Comp_fits[0] = (TH1D*)H1D_jetPt_run2_MLPaperFile->Clone("H1D_jetPt_unfolded_run2Comp_fits_run2"+partialUniqueSpecifier);
     H1D_jetPt_unfolded_run2Comp_fits[1] = (TH1D*)H1D_jetPt_unfolded->Clone("H1D_jetPt_unfolded_run2Comp_fits_run3"+partialUniqueSpecifier);
 
-    std::pair<TH1D*, TGraphErrors*> pairResult_run3 = RebinWithTsallisFit(H1D_jetPt_unfolded, nBinPtJetsGen[iRadius], ptBinsJetsGen[iRadius], fitPtRange);
+    std::tuple<TF1*, TMatrixDSym, TFitResultPtr> exponentialFitWithLogTransfoResult_run3 = ExponentialFitWithLogTransfo(H1D_jetPt_unfolded, fitPtRange);
+    TString histName_run3 = "rebinWithFit_run3"+partialUniqueSpecifier;
+    std::pair<TH1D*, TGraphErrors*> pairResult_run3 = RebinWithFit(H1D_jetPt_unfolded, nBinPtJetsGen[iRadius], ptBinsJetsGen[iRadius], fitPtRange, histName_run3, exponentialFitWithLogTransfoResult_run3);
+
     TGraph_jetPt_unfolded_run2Comp_fits.push_back(pairResult_run2.second);
     TGraph_jetPt_unfolded_run2Comp_fits.push_back(pairResult_run3.second);
     

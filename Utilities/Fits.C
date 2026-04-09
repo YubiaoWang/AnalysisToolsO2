@@ -33,6 +33,13 @@ TGraphErrors* GetFunctionTGraphErrorsFromCovMatrix(double* xRangeFit, TF1* fitFu
   return fitFunctionTGraphErrors;
 }
 
+
+
+
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////// Fits ////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+
 std::tuple<TF1*, TMatrixDSym, TFitResultPtr> TsallisFit(TH1D* &histogramInput, double* xRangeFit) {
   ////////////////////////////////// Fit initialisation //////////////////////////////////
   //Fit tools initialisation
@@ -96,33 +103,6 @@ std::tuple<TF1*, TMatrixDSym, TFitResultPtr> TsallisFit(TH1D* &histogramInput, d
 
   std::tuple<TF1*, TMatrixDSym, TFitResultPtr> fitFunctionAndFitParams(fitFunctionDrawn, covMatrixFit, fFitResult);
   return fitFunctionAndFitParams;
-}
-
-std::pair<TH1D*, TGraphErrors*> RebinWithTsallisFit(TH1D* &histogramInput, int nBinsX, double* binsX, double* xRangeFit) {
-  std::tuple<TF1*, TMatrixDSym, TFitResultPtr> tsallisFitFunctionResult = TsallisFit(histogramInput, xRangeFit);
-  TF1* fitFunctionDrawn = std::get<0>(tsallisFitFunctionResult);
-  TFitResultPtr fitResult = std::get<2>(tsallisFitFunctionResult);
-  TGraphErrors* fitFunctionTGraphErrors = GetFunctionTGraphErrorsFromFitResult(xRangeFit, fitFunctionDrawn, fitResult);
-
-  ///////////////////////////////////////////////////////////////////////////////////
-  //////////////////////////// Rebin of input histogram /////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////////////
-
-  TH1D* histogramRebinned = new TH1D("H1D_jetPt_run2_MLPaperFile_rebinned", "H1D_jetPt_run2_MLPaperFile_rebinned", nBinsX, binsX);
-  for(int iBin = 0; iBin < nBinsX; iBin++){
-    // histogramRebinned->SetBinContent(iBin, histogramInput->GetBinContent(iBin)); // Getting bin center here not ideal; should try to read and apply "Where to stick your data points: The treatment of measurements within wide bins"
-    histogramRebinned->SetBinContent(iBin, fitFunctionDrawn->Eval(histogramRebinned->GetXaxis()->GetBinCenter(iBin))); // Getting bin center here not ideal; should try to read and apply "Where to stick your data points: The treatment of measurements within wide bins"
-    // cout << "histogramRebinned(" << iBin << ") = " << histogramRebinned->GetBinContent(iBin) << endl; 
-    // histogramRebinned->SetBinError(iBin, fitFunctionDrawn->EvalUncertainty(histogramRebinned->GetXaxis()->GetBinCenter(iBin), nullptr));
-    double oneSigmaInterval = 0.683;
-    double errorEval[1] = {0};
-    double xEval[1] = {(double)histogramRebinned->GetXaxis()->GetBinCenter(iBin)};
-    fitResult->GetConfidenceIntervals(1, 1, 1, xEval, errorEval, oneSigmaInterval, false);
-    histogramRebinned->SetBinError(iBin, errorEval[0]);
-  }
-
-  std::pair<TH1D*, TGraphErrors*> rebinResultAndFitFunction(histogramRebinned, fitFunctionTGraphErrors);
-  return rebinResultAndFitFunction;
 }
 
 std::tuple<TF1*, TMatrixDSym, TFitResultPtr> ExponentialFitWithLogTransfo(TH1D* &histogramInput, double* xRangeFit) {
@@ -201,6 +181,65 @@ std::tuple<TF1*, TMatrixDSym, TFitResultPtr> ExponentialFitWithLogTransfo(TH1D* 
 
   std::tuple<TF1*, TMatrixDSym, TFitResultPtr> fitFunctionAndFitParams(fitFunctionDrawn, covMatrixFit, fFitResult);
   return fitFunctionAndFitParams;
+}
+
+
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////// Rebin with Fit ////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+
+std::pair<TH1D*, TGraphErrors*> RebinWithTsallisFit(TH1D* &histogramInput, int nBinsX, double* binsX, double* xRangeFit, TString histName) {
+  std::tuple<TF1*, TMatrixDSym, TFitResultPtr> tsallisFitFunctionResult = TsallisFit(histogramInput, xRangeFit);
+  TF1* fitFunctionDrawn = std::get<0>(tsallisFitFunctionResult);
+  TFitResultPtr fitResult = std::get<2>(tsallisFitFunctionResult);
+  TGraphErrors* fitFunctionTGraphErrors = GetFunctionTGraphErrorsFromFitResult(xRangeFit, fitFunctionDrawn, fitResult);
+
+  ///////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////// Rebin of input histogram /////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////
+
+  TH1D* histogramRebinned = new TH1D(histName+(TString)"_rebinned", histName+(TString)"_rebinned", nBinsX, binsX);
+  for(int iBin = 0; iBin < nBinsX; iBin++){
+    // histogramRebinned->SetBinContent(iBin, histogramInput->GetBinContent(iBin)); // Getting bin center here not ideal; should try to read and apply "Where to stick your data points: The treatment of measurements within wide bins"
+    histogramRebinned->SetBinContent(iBin, fitFunctionDrawn->Eval(histogramRebinned->GetXaxis()->GetBinCenter(iBin))); // Getting bin center here not ideal; should try to read and apply "Where to stick your data points: The treatment of measurements within wide bins"
+    // cout << "histogramRebinned(" << iBin << ") = " << histogramRebinned->GetBinContent(iBin) << endl; 
+    // histogramRebinned->SetBinError(iBin, fitFunctionDrawn->EvalUncertainty(histogramRebinned->GetXaxis()->GetBinCenter(iBin), nullptr));
+    double oneSigmaInterval = 0.683;
+    double errorEval[1] = {0};
+    double xEval[1] = {(double)histogramRebinned->GetXaxis()->GetBinCenter(iBin)};
+    fitResult->GetConfidenceIntervals(1, 1, 1, xEval, errorEval, oneSigmaInterval, false);
+    histogramRebinned->SetBinError(iBin, errorEval[0]);
+  }
+
+  std::pair<TH1D*, TGraphErrors*> rebinResultAndFitFunction(histogramRebinned, fitFunctionTGraphErrors);
+  return rebinResultAndFitFunction;
+}
+
+
+std::pair<TH1D*, TGraphErrors*> RebinWithFit(TH1D* &histogramInput, int nBinsX, double* binsX, double* xRangeFit, TString histName, std::tuple<TF1*, TMatrixDSym, TFitResultPtr> fitFunctionResult) {
+  TF1* fitFunctionDrawn = std::get<0>(fitFunctionResult);
+  TFitResultPtr fitResult = std::get<2>(fitFunctionResult);
+  TGraphErrors* fitFunctionTGraphErrors = GetFunctionTGraphErrorsFromFitResult(xRangeFit, fitFunctionDrawn, fitResult);
+
+  ///////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////// Rebin of input histogram /////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////
+
+  TH1D* histogramRebinned = new TH1D(histName+(TString)"_rebinned", histName+(TString)"_rebinned", nBinsX, binsX);
+  for(int iBin = 0; iBin < nBinsX; iBin++){
+    // histogramRebinned->SetBinContent(iBin, histogramInput->GetBinContent(iBin)); // Getting bin center here not ideal; should try to read and apply "Where to stick your data points: The treatment of measurements within wide bins"
+    histogramRebinned->SetBinContent(iBin, fitFunctionDrawn->Eval(histogramRebinned->GetXaxis()->GetBinCenter(iBin))); // Getting bin center here not ideal; should try to read and apply "Where to stick your data points: The treatment of measurements within wide bins"
+    // cout << "histogramRebinned(" << iBin << ") = " << histogramRebinned->GetBinContent(iBin) << endl; 
+    // histogramRebinned->SetBinError(iBin, fitFunctionDrawn->EvalUncertainty(histogramRebinned->GetXaxis()->GetBinCenter(iBin), nullptr));
+    double oneSigmaInterval = 0.683;
+    double errorEval[1] = {0};
+    double xEval[1] = {(double)histogramRebinned->GetXaxis()->GetBinCenter(iBin)};
+    fitResult->GetConfidenceIntervals(1, 1, 1, xEval, errorEval, oneSigmaInterval, false);
+    histogramRebinned->SetBinError(iBin, errorEval[0]);
+  }
+
+  std::pair<TH1D*, TGraphErrors*> rebinResultAndFitFunction(histogramRebinned, fitFunctionTGraphErrors);
+  return rebinResultAndFitFunction;
 }
 
 #endif
