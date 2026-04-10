@@ -42,6 +42,19 @@ std::vector<double> MakeVariableBinning_twoWidths(double xMin, int nLeft, double
   return bins;
 }
 
+std::vector<double> MakeConstantSizeBinning(double xMin, double xMax, int nBins) {
+  if (xMin > xMax){
+    cout << "ERROR in MakeConstantSizeBinning(): it should be xMin < xMax but it is not the case" << endl;
+  }
+  std::vector<double> bins;
+  double binWidth;
+  binWidth = (xMax - xMin) / nBins;
+  for(int i = 0; i < nBins+1; i++){ // using nRight +1 here so that the rightmost edge is added. But due to double prec, might not be exactly xMax; alternative could be to forego the +1 and manually pushback xMax
+    bins.push_back(xMin + i * binWidth);
+  }
+  return bins;
+}
+
 TH1D* TGraphErrorsToTH1D(TGraphErrors* tgraphToConvert) {
   // assumes errors in x axis correspond to binning
   int nBins = tgraphToConvert->GetN();
@@ -342,8 +355,23 @@ void NormaliseYSlicesToOneNoUnderOverFlows(TH2D* H2D_hist){
 } 
 
 void NormaliseXSlicesToOne(TH2D* H2D_hist){ 
-  // normalise only what is inside the gen bins, not outside
-  // see AliAnaChargedJetResponseMaker::MakeResponseMatrixRebin
+
+    // gustavo
+    // nbinsY = H2D_sigmapt_pt[iDataset]->GetNbinsY();
+    // for(int j = 1; j <= H2D_sigmapt_pt[iDataset]->GetNbinsX(); j++) {
+    //   TH1D* temp1 = h2D->ProjectionY(Form("Bin%d",j),j,j);
+    //   float scale1 = temp1 -> Integral(-1,-1);
+      
+    //   for(int i = 1; i <= nbinsY; i++) {
+    //     if ( scale1 > 0 ) {
+    //       h2D->SetBinContent(j,i, h2D->GetBinContent(j,i)/scale1);
+    //       h2D->SetBinError  (j,i, h2D->GetBinError  (j,i)/scale1);
+    //     } else {
+    //       h2D->SetBinContent(j,i, 0);
+    //       h2D->SetBinError  (j,i, 0);       
+    //     }
+    //   } // y bin loop 
+    // } // x bin loop
 
   cout << "Normalising x-slices" << endl;
   // Normalisation of the H2D_hist 2D histogram: each pt rec slice is normalised to unity, takes underflow into account if it's present
@@ -592,11 +620,20 @@ bool DivideWithCorrelatedErrors_simpleMax(TH1D* histNumeratorToBeDivided, TH1D* 
   }
   bool divideSuccess = histNumeratorToBeDivided->Divide(histDenominator);
   for (int iBin = 1; iBin <= nBins; iBin++) {
-    histNumeratorToBeDivided->SetBinError(iBin, errorsNum[iBin] > errorsDen[iBin] ? errorsNum[iBin] : errorsDen[iBin]);
+    histNumeratorToBeDivided->SetBinError(iBin, errorsNum[iBin-1] > errorsDen[iBin-1] ? errorsNum[iBin-1] : errorsDen[iBin-1]);
+    // cout << "iBin " << iBin << ", eNum = " << errorsNum[iBin-1] << ", eDen = " << errorsDen[iBin-1] << ", divisionError = " << histNumeratorToBeDivided->GetBinError(iBin) << endl;
   }
+
   return divideSuccess;
 }
 
 
+
+
+void Save_PtResponseMatrix(TH2D* &H2D_jetPtResponseMatrix, TString fileName) {
+  TFile *newFile = new TFile(fileName+".root", "RECREATE");
+  H2D_jetPtResponseMatrix->Write();
+  newFile->Close();
+}
 
 #endif

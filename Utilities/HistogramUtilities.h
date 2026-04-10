@@ -5,6 +5,7 @@
 
 
 std::vector<double> MakeVariableBinning_twoWidths(double xMin, int nLeft, double xMiddle, double xMax, int nRight);
+std::vector<double> MakeConstantSizeBinning(double xMin, double xMax, int nBins);
 std::vector<double> GetTH1Bins(TH1 H1_histo);
 TH1D* TGraphErrorsToTH1D(TGraphErrors* tgraphToConvert);
 
@@ -28,5 +29,7 @@ TH2D GetMatrixProductTH2xTH2(TH2D* histA, TH2D* histB);
 TH1D GetMatrixVectorProductTH2xTH1(TH2D* histA, TH1D* histU);
 
 bool DivideWithCorrelatedErrors_simpleMax(TH1D* histNumeratorToBeDivided, TH1D* histDenominator);
+
+void Save_PtResponseMatrix(TH2D* &H2D_jetPtResponseMatrix, TString fileName);
 
 #endif
