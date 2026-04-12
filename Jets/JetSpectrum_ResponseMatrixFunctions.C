@@ -584,7 +584,7 @@ void Get_PtResponseMatrix_Fluctuations(TH2D* &H2D_jetPtResponseMatrix_fluctuatio
       int ibinCent_high = H2D_fluctuations_centrality->GetXaxis()->FindBin(centralityRange[1]);
       TH1D* H1D_fluctuations_temp = (TH1D*)H2D_fluctuations_centrality->ProjectionY("bkgFluctuationCentrality_highRes_"+partialUniqueSpecifier, ibinCent_low, ibinCent_high, "e");
 
-      int nBinsFluct = 2000;
+      int nBinsFluct = 2000;// currently hist has 2000 bins, between deltapt = -100 and 100
       TH1D H1D_fluctuations_extended = TH1D("H1D_response_extended_"+partialUniqueSpecifier, "H1D_response_extended_"+partialUniqueSpecifier, nBinsFluct, -200, 200);
       int iBinMin_H1D_fluctuations = 500;
       int iBinMax_H1D_fluctuations = 1500;
@@ -624,14 +624,14 @@ void Get_PtResponseMatrix_Fluctuations(TH2D* &H2D_jetPtResponseMatrix_fluctuatio
         // int iBin_fluct_low = H1D_fluctuations->GetXaxis()->FindBin(ptRec_low - ptGen + GLOBAL_epsilon);
         // int iBin_fluct_high = H1D_fluctuations->GetXaxis()->FindBin(ptRec_up - ptGen - GLOBAL_epsilon);
         iBin_fluct_low = H1D_fluctuations->GetXaxis()->FindBin(ptRec_low - ptGen + GLOBAL_epsilon);
-        if (iBinGen == 10 && (iBin_fluct_low >= iBin_fluct_high)) { // checks iBinRec =10 so that the message doesn't appear NbinsX*NBinsY times
+        if (iBinGen == 80 && (iBin_fluct_low >= iBin_fluct_high)) { // checks iBinRec =10 so that the message doesn't appear NbinsX*NBinsY times
           if (!deltaPtHistStopsAt100){
           cout << "Get_PtResponseMatrix_Fluctuations: some bins are counted twice in the integral, binning needs to be looked at, right now the fluctuation matrix has too many entries" << endl;
           }
         }
         iBin_fluct_high = H1D_fluctuations->GetXaxis()->FindBin(ptRec_up - ptGen - GLOBAL_epsilon)-1;
         
-        H2D_response.SetBinContent(iBinRec, iBinGen, H1D_fluctuations->IntegralAndError(iBin_fluct_low, iBin_fluct_high, integralError)); 
+        H2D_response.SetBinContent(iBinRec, iBinGen, H1D_fluctuations->IntegralAndError(iBin_fluct_low, iBin_fluct_high, integralError, "width")); 
         H2D_response.SetBinError(iBinRec, iBinGen, integralError); 
 
         // if (iBinGen == 10) {
@@ -640,10 +640,13 @@ void Get_PtResponseMatrix_Fluctuations(TH2D* &H2D_jetPtResponseMatrix_fluctuatio
       }
     }
     float integralCheck = H2D_response.Integral(1, H2D_response.GetNbinsX(), 10, 10);
-    if (!(integralCheck > 0.999)) {
+    if (!(0.999 < integralCheck && integralCheck < 1.001)) {
       cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
       cout << "!!!!!!Response matrix of fluctuations does not have line integral equal to 1; something is wrong with binning!!!!!!" << endl;
       cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
+      cout << "Integral Line 10 fluct matrix: " << H2D_response.Integral(1, H2D_response.GetNbinsX(), 10, 10) << endl;
+      cout << "Integral Line 50 fluct matrix: " << H2D_response.Integral(1, H2D_response.GetNbinsX(), 50, 50) << endl;
+      cout << "Integral Line 100 fluct matrix: " << H2D_response.Integral(1, H2D_response.GetNbinsX(), 100, 100) << endl;
     }
 
     //========================================= Build response matrix end =========================================//
